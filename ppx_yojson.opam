@@ -4,7 +4,7 @@ author: "Nathan Rebours <nathan.p.rebours@gmail.com>"
 homepage: "https://github.com/NathanReb/ppx_yojson"
 bug-reports: "https://github.com/NathanReb/ppx_yojson/issues"
 license: "BSD-2"
-dev-repo: "git@github.com:NathanReb/ppx_yojson.git"
+dev-repo: "git+https://github.com/cryptosense/ppx_yojson.git"
 build: [
   [ "dune" "build" "-p" name "-j" jobs ]
 ]
