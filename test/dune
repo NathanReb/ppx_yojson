@@ -1,0 +1,32 @@
+(executable
+  (name pp)
+  (modules pp)
+  (libraries
+    ppx_yojson
+    ppxlib
+  )
+)
+
+(rule
+  (targets pp.actual)
+  (deps test.ml)
+  (action (run ./pp.exe --impl %{deps} -o %{targets}))
+)
+
+(alias
+  (name runtest)
+  (action (diff pp.expected pp.actual))
+)
+
+(test
+  (name test)
+  (modules test)
+  (libraries
+    yojson
+  )
+  (preprocess
+    (pps
+      ppx_yojson
+    )
+  )
+)
