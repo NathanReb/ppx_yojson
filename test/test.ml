@@ -1,6 +1,6 @@
 open Yojson.Safe
 
-let none : json = [%yojson None]
+let null : json = [%yojson None]
 let true_ : json = [%yojson true]
 let false_ : json = [%yojson false]
 let string : json = [%yojson "a"]
