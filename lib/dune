@@ -1,9 +1,7 @@
 (library
-  (name ppx_yojson)
-  (public_name ppx_yojson)
-  (kind ppx_rewriter)
+  (name ppx_yojson_lib)
+  (public_name ppx_yojson.lib)
   (libraries
-    ppx_yojson_lib
     ppxlib
   )
   (preprocess
