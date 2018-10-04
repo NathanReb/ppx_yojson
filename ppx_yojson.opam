@@ -5,6 +5,7 @@ homepage: "https://github.com/NathanReb/ppx_yojson"
 bug-reports: "https://github.com/NathanReb/ppx_yojson/issues"
 license: "BSD-2"
 dev-repo: "git+https://github.com/cryptosense/ppx_yojson.git"
+doc: "https://nathanreb.github.io/ppx_yojson/doc"
 build: [
   [ "dune" "build" "-p" name "-j" jobs ]
 ]
