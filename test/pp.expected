@@ -1,16 +1,16 @@
 open Yojson.Safe
-let none : json = `Null 
-let true_ : json = `Bool true 
-let false_ : json = `Bool false 
-let string : json = `String "a" 
-let int : json = `Int 1 
-let int_lit : json = `Intlit "4611686018427387904" 
-let float : json = `Float 1.2e+10 
-let empty_array : json = `List [] 
-let array : json = `List [`Int 1; `Int 2; `Int 3] 
-let mixed_array : json = `List [`Bool true; `Int 1; `String "a"] 
+let none : json = `Null
+let true_ : json = `Bool true
+let false_ : json = `Bool false
+let string : json = `String "a"
+let int : json = `Int 1
+let int_lit : json = `Intlit "4611686018427387904"
+let float : json = `Float 1.2e+10
+let empty_array : json = `List []
+let array : json = `List [`Int 1; `Int 2; `Int 3]
+let mixed_array : json = `List [`Bool true; `Int 1; `String "a"]
 let record : json =
-  `Assoc [("a", (`Bool true)); ("b", (`Int 1)); ("c", (`String "a"))] 
+  `Assoc [("a", (`Bool true)); ("b", (`Int 1)); ("c", (`String "a"))]
 let complex : json =
   `Assoc
     [("description", (`String "Some written thing"));
@@ -18,4 +18,3 @@ let complex : json =
       (`List
          [`Assoc [("name", (`String "Kurt Cobain")); ("age", (`Int 27))];
          `Assoc [("name", (`String "Jesus Christ")); ("age", (`Int 33))]]))]
-  
