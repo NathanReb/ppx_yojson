@@ -10,6 +10,12 @@ module Estring = struct
 end
 
 module Einteger = struct
+  let int_of_string_opt s =
+    try
+      Some (int_of_string s)
+    with Failure _ ->
+      None
+
   let is_special_encoding c s =
     s.[0] = '0' && (s.[1] = c || s.[1] = Char.uppercase_ascii c)
 

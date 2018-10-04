@@ -4,7 +4,7 @@ author: "Nathan Rebours <nathan.p.rebours@gmail.com>"
 homepage: "https://github.com/NathanReb/ppx_yojson"
 bug-reports: "https://github.com/NathanReb/ppx_yojson/issues"
 license: "BSD-2"
-dev-repo: "git@github.com:NathanReb/ppx_yojson.git"
+dev-repo: "git+https://github.com/cryptosense/ppx_yojson.git"
 build: [
   [ "dune" "build" "-p" name "-j" jobs ]
 ]
@@ -13,8 +13,8 @@ run-test: [
 ]
 depends: [
   "dune" {build}
-  "ocaml-version" {>= "4.04.2"}
+  "ocaml" {>= "4.04.2"}
   "ounit" {with-test & >= "2.0.0"}
-  "ppxlib"
+  "ppxlib" {>= "0.3.0"}
   "yojson" {with-test}
 ]
