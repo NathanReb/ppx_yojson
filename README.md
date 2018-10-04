@@ -1,4 +1,3 @@
-
 # ppx_yojson
 
 PPX extension for Yojson literals and patterns
@@ -30,7 +29,7 @@ into:
 let json =
   [%yojson
     [ {name = "Anne"; grades = ["A"; "B-"; "B+"]}
-    ; {name = "Anne"; grades = ["A"; "B-"; "B+"]}
+    ; {name = "Bernard"; grades = ["B+"; "A"; "B-"]}
     ]
   ]
 ```
