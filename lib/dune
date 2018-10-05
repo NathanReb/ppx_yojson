@@ -1,6 +1,6 @@
 (library
   (name ppx_yojson_lib)
-  (public_name ppx_yojson.lib)
+  (public_name ppx_yojson._lib)
   (libraries
     ppxlib
   )
