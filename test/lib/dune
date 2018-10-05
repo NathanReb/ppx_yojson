@@ -1,0 +1,12 @@
+(test
+  (name test_ppx_yojson_lib)
+  (libraries
+    ppx_yojson_lib
+    oUnit
+  )
+  (preprocess
+    (pps
+      ppx_deriving.std
+    )
+  )
+)
