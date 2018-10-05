@@ -2,6 +2,8 @@
 
 PPX extension for Yojson literals and patterns
 
+Based on an original idea by [@emillon](https://github.com/emillon).
+
 [![Build Status](https://travis-ci.org/NathanReb/ppx_yojson.svg?branch=master)](https://travis-ci.org/NathanReb/ppx_yojson)
 
 ## Overview
