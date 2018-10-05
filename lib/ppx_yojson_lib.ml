@@ -1,7 +1,5 @@
 open Ppxlib
 
-let name = "yojson"
-
 let unsupported ~loc =
   Location.raise_errorf ~loc "ppx_yojson: unsupported payload"
 
@@ -69,17 +67,3 @@ and expand_record ~loc ~path l =
   in
   let expr_list = List.map expand_one l in
   [%expr [%e Ast_builder.Default.elist ~loc expr_list]]
-
-let expr_extension =
-  Extension.declare
-    name
-    Extension.Context.expression
-    Ast_pattern.(single_expr_payload __)
-    expand_expr
-
-let expr_rule = Ppxlib.Context_free.Rule.extension expr_extension
-
-let () =
-  Ppxlib.Driver.register_transformation
-    ~rules:[expr_rule]
-    name
