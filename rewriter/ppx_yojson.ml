@@ -7,7 +7,7 @@ let expr_extension =
     name
     Extension.Context.expression
     Ast_pattern.(single_expr_payload __)
-    Ppx_yojson_lib.expand_expr
+    Ppx_yojson_lib.Expression.expand
 
 let expr_rule = Ppxlib.Context_free.Rule.extension expr_extension
 
