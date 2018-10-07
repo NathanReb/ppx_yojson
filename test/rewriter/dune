@@ -30,3 +30,19 @@
     )
   )
 )
+
+(rule
+  (targets pp_error_integer_literal.actual)
+  (deps pp.exe (:input test_error_integer_literal.ml))
+  (action
+    (with-stderr-to    
+      pp_error_integer_literal.actual
+      (bash "./pp.exe -no-color --impl %{input} || true")
+    )
+  )
+)
+
+(alias
+  (name runtest)
+  (action (diff pp_error_integer_literal.expected pp_error_integer_literal.actual))
+)
