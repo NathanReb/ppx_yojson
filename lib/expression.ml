@@ -2,12 +2,12 @@ open Ppxlib
 
 let expand_string ~loc s = [%expr `String [%e Ast_builder.Default.estring ~loc s]]
 
-let expand_int ~loc s =
+let expand_int ~loc ~pexp_loc s =
   match Ocaml_compat.int_of_string_opt s with
   | Some i -> [%expr `Int [%e Ast_builder.Default.eint ~loc i]]
-  | None when Integer_const.is_binary s -> Raise.unsupported_payload ~loc
-  | None when Integer_const.is_octal s -> Raise.unsupported_payload ~loc
-  | None when Integer_const.is_hexadecimal s -> Raise.unsupported_payload ~loc
+  | None when Integer_const.is_binary s -> Raise.unsupported_payload ~loc:pexp_loc
+  | None when Integer_const.is_octal s -> Raise.unsupported_payload ~loc:pexp_loc
+  | None when Integer_const.is_hexadecimal s -> Raise.unsupported_payload ~loc:pexp_loc
   | None -> [%expr `Intlit [%e Ast_builder.Default.estring ~loc s]]
 
 let expand_float ~loc s = [%expr `Float [%e Ast_builder.Default.efloat ~loc s]]
@@ -18,7 +18,7 @@ let rec expand ~loc ~path expr =
   | [%expr true] -> [%expr (`Bool true)]
   | [%expr false] -> [%expr (`Bool false)]
   | {pexp_desc = Pexp_constant (Pconst_string (s, None)); _} -> expand_string ~loc s
-  | {pexp_desc = Pexp_constant (Pconst_integer (s, None)); _} -> expand_int ~loc s
+  | {pexp_desc = Pexp_constant (Pconst_integer (s, None)); pexp_loc; _} -> expand_int ~loc ~pexp_loc s
   | {pexp_desc = Pexp_constant (Pconst_float (s, None)); _} -> expand_float ~loc s
   | [%expr []] -> [%expr `List []]
   | [%expr [%e? _]::[%e? _]] -> [%expr `List [%e expand_list ~loc ~path expr]]
