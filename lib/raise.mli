@@ -14,3 +14,8 @@ val unsupported_payload :
 val unsupported_record_field :
   loc: Ppxlib.Location.t ->
   'a
+
+(** Use this for record pattern with more than 4 fields. *)
+val too_many_fields_in_record_pattern :
+  loc: Ppxlib.Location.t ->
+  'a
