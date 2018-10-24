@@ -76,13 +76,16 @@ The pattern rewriter supports the following:
 
 Json objects fields order doesn't matter so you'd expect the `{a = 1; b = true}` pattern to match
 regardless of the parsed json being `{"a": 1, "b": true}` or `{"b": true, "a": 1}`.
+
 Since json objects are represented as lists, the order of the fields in the rewritten pattern does
 matter.
+
 To allow you to write such patterns concisely and without having to care for the order of the
 fields, the record pattern is expanded to an or-pattern that matches every permutation of the
 `(string * json) list`. This is the reason of the limitations mentioned in the above list.
 Also note that there is no limitation on nesting such patterns but you probably want to avoid doing
 that too much.
+
 This is provided mostly for convenience. If you want efficient code and/or to handle complex json
 objects I recommend that you use `ppx_deriving_yojson` instead.
 
