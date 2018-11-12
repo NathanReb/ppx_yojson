@@ -12,6 +12,13 @@ let expand_int ~loc ~pexp_loc s =
 
 let expand_float ~loc s = [%expr `Float [%e Ast_builder.Default.efloat ~loc s]]
 
+let expand_anti_quotation ~pexp_loc = function
+  | PStr [{pstr_desc = Pstr_eval (expr, _); _}] -> expr
+  | PStr _
+  | PSig _
+  | PTyp _
+  | PPat _ -> Raise.bad_expr_antiquotation_payload ~loc:pexp_loc
+
 let rec expand ~loc ~path expr =
   match expr with
   | [%expr None] -> [%expr `Null]
@@ -23,6 +30,7 @@ let rec expand ~loc ~path expr =
   | [%expr []] -> [%expr `List []]
   | [%expr [%e? _]::[%e? _]] -> [%expr `List [%e expand_list ~loc ~path expr]]
   | {pexp_desc = Pexp_record (l, None); _} -> [%expr `Assoc [%e expand_record ~loc ~path l]]
+  | {pexp_desc = Pexp_extension ({txt = "y"; _}, p); pexp_loc; _} -> expand_anti_quotation ~pexp_loc p
   | _ -> Raise.unsupported_payload ~loc:expr.pexp_loc
 and expand_list ~loc ~path = function
   | [%expr []]

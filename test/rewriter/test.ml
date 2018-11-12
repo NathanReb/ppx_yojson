@@ -20,6 +20,7 @@ let complex : json =
         ]
     }
   ]
+let anti_quotation : json = [%yojson {a = [%y `String "a"]; b = 1}]
 
 let patterns : json -> unit = function [@warning "-11"]
   | [%yojson? None] as _null -> ()

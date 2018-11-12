@@ -19,3 +19,8 @@ val unsupported_record_field :
 val too_many_fields_in_record_pattern :
   loc: Ppxlib.Location.t ->
   'a
+
+(** Use this for bad payload in expression antiquotation [[%y ...]]. *)
+val bad_expr_antiquotation_payload :
+  loc: Ppxlib.Location.t ->
+  'a

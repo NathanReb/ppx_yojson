@@ -55,6 +55,22 @@ The expression rewriter supports the following `Yojson` values:
 The resulting expression are not constrained, meaning it works with `Yojson.Safe` or `Yojson.Basic`
 regardless.
 
+#### Anti-quotation
+
+You can escape regular `Yojson` expression within a payload using `[%y json_expr]`. You can use
+this to insert variables in the payload. For example:
+
+```ocaml
+let a = `String "a"
+let json = [%yojson { a = [%y a]; b = "b"}]
+```
+is rewritten as:
+```ocaml
+let a = `String "a"
+let json = `Assoc [("a", a); (b, `String "b")]
+```
+Note that the payload in a `%y` extension should always subtype one of the `Yojson` types.
+
 ### Patterns
 
 Note that the pattern extension expects a pattern payload and must thus be invoked as

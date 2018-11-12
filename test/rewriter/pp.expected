@@ -18,6 +18,7 @@ let complex : json =
       (`List
          [`Assoc [("name", (`String "Kurt Cobain")); ("age", (`Int 27))];
          `Assoc [("name", (`String "Jesus Christ")); ("age", (`Int 33))]]))]
+let anti_quotation : json = `Assoc [("a", (`String "a")); ("b", (`Int 1))]
 let patterns : json -> unit =
   ((function
     | `Null as _null -> ()

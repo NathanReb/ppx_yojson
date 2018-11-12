@@ -3,6 +3,7 @@
 ### Add
 
 - Add an extension to write Yojson patterns
+- Add anti-quotations `[%y expr]` in expression extension
 
 ### Fixes
 
