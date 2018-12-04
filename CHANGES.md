@@ -1,9 +1,10 @@
 ## unreleased
 
-### Add
+### Additions
 
 - Add an extension to write Yojson patterns
 - Add anti-quotations `[%y expr]` in expression extension
+- Add support for `int32`, `int64` and `nativeint` payloads
 
 ### Fixes
 

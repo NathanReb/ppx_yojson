@@ -10,6 +10,8 @@ let expand_int ~loc ~ppat_loc s =
   | None when Integer_const.is_binary s -> Raise.unsupported_payload ~loc:ppat_loc
   | None -> [%pat? `Intlit [%p Ast_builder.Default.pstring ~loc s]]
 
+let expand_intlit ~loc s = [%pat? `Intlit [%p Ast_builder.Default.pstring ~loc s]]
+
 let expand_float ~loc s = [%pat? `Float [%p Ast_builder.Default.pfloat ~loc s]]
 
 let expand_var ~loc var = Ast_builder.Default.ppat_var ~loc var
@@ -24,6 +26,9 @@ let rec expand ~loc ~path pat =
   | {ppat_desc = Ppat_constant (Pconst_integer (s, None)); ppat_loc; _}
     ->
     expand_int ~loc ~ppat_loc s
+  | {ppat_desc = Ppat_constant (Pconst_integer (s, Some ('l' | 'L' | 'n'))); _}
+    ->
+    expand_intlit ~loc s
   | {ppat_desc = Ppat_constant (Pconst_float (s, None)); _} -> expand_float ~loc s
   | {ppat_desc = Ppat_var v; _} -> expand_var ~loc v
   | [%pat? [%p? left] | [%p? right]]

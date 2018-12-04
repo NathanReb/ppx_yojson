@@ -19,6 +19,9 @@ let complex : json =
          [`Assoc [("name", (`String "Kurt Cobain")); ("age", (`Int 27))];
          `Assoc [("name", (`String "Jesus Christ")); ("age", (`Int 33))]]))]
 let anti_quotation : json = `Assoc [("a", (`String "a")); ("b", (`Int 1))]
+let int_64 : json = `Intlit "1"
+let int_32 : json = `Intlit "1"
+let native_int : json = `Intlit "1"
 let patterns : json -> unit =
   ((function
     | `Null as _null -> ()
@@ -82,6 +85,9 @@ let patterns : json -> unit =
                                                                     "Jesus Christ")::[]))::[]))::
          ("description", `String "Some written thing")::[])
         as _complex -> ()
+    | `Intlit "1" as _int_64 -> ()
+    | `Intlit "1" as _int_32 -> ()
+    | `Intlit "1" as _native_int -> ()
     | _s as _var -> ()
     | _ as _any -> ())
   [@warning "-11"])
