@@ -2,15 +2,15 @@ open Ppxlib
 
 let expand_string ~loc s = [%pat? `String [%p Ast_builder.Default.pstring ~loc s]]
 
+let expand_intlit ~loc s = [%pat? `Intlit [%p Ast_builder.Default.pstring ~loc s]]
+
 let expand_int ~loc ~ppat_loc s =
   match Ocaml_compat.int_of_string_opt s with
   | Some i -> [%pat? `Int [%p Ast_builder.Default.pint ~loc i]]
   | None when Integer_const.is_binary s -> Raise.unsupported_payload ~loc:ppat_loc
   | None when Integer_const.is_octal s -> Raise.unsupported_payload ~loc:ppat_loc
   | None when Integer_const.is_binary s -> Raise.unsupported_payload ~loc:ppat_loc
-  | None -> [%pat? `Intlit [%p Ast_builder.Default.pstring ~loc s]]
-
-let expand_intlit ~loc s = [%pat? `Intlit [%p Ast_builder.Default.pstring ~loc s]]
+  | None -> expand_intlit ~loc s
 
 let expand_float ~loc s = [%pat? `Float [%p Ast_builder.Default.pfloat ~loc s]]
 

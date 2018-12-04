@@ -2,15 +2,15 @@ open Ppxlib
 
 let expand_string ~loc s = [%expr `String [%e Ast_builder.Default.estring ~loc s]]
 
+let expand_intlit ~loc s = [%expr `Intlit [%e Ast_builder.Default.estring ~loc s]]
+
 let expand_int ~loc ~pexp_loc s =
   match Ocaml_compat.int_of_string_opt s with
   | Some i -> [%expr `Int [%e Ast_builder.Default.eint ~loc i]]
   | None when Integer_const.is_binary s -> Raise.unsupported_payload ~loc:pexp_loc
   | None when Integer_const.is_octal s -> Raise.unsupported_payload ~loc:pexp_loc
   | None when Integer_const.is_hexadecimal s -> Raise.unsupported_payload ~loc:pexp_loc
-  | None -> [%expr `Intlit [%e Ast_builder.Default.estring ~loc s]]
-
-let expand_intlit ~loc s = [%expr `Intlit [%e Ast_builder.Default.estring ~loc s]]
+  | None -> expand_intlit ~loc s
 
 let expand_float ~loc s = [%expr `Float [%e Ast_builder.Default.efloat ~loc s]]
 
