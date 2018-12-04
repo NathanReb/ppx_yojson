@@ -21,6 +21,9 @@ let complex : json =
     }
   ]
 let anti_quotation : json = [%yojson {a = [%y `String "a"]; b = 1}]
+let int_64 : json = [%yojson 1L]
+let int_32 : json = [%yojson 1l]
+let native_int : json = [%yojson 1n]
 
 let patterns : json -> unit = function [@warning "-11"]
   | [%yojson? None] as _null -> ()
@@ -45,5 +48,8 @@ let patterns : json -> unit = function [@warning "-11"]
     ] as _complex
     ->
     ()
+  | [%yojson? 1L] as _int_64 -> ()
+  | [%yojson? 1l] as _int_32 -> ()
+  | [%yojson? 1n] as _native_int -> ()
   | [%yojson? _s] as _var -> ()
   | [%yojson? _] as _any -> ()

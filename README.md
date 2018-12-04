@@ -44,7 +44,9 @@ The expression rewriter supports the following `Yojson` values:
 - `Float of float`: `[%yojson 1.2e+10]`
 - `Int of int`: `[%yojson 0xff]`. As long as the int literal in the payload fits in an `int`,
   the `0x`, `0o` and `0b` notations are accepted.
-- `Intlit of string`: `[%yojson 100000000000000000000000000000000]`. For arbitrary long integers,
+- `Intlit of string`: `[%yojson 100000000000000000000000000000000]`. For arbitrary long integers.
+  `int64`, `int32` and `nativeint` literals are also rewritten as `Intlit` for consistency with
+  `ppx_deriving_yojson`
   `0x`, `0o` and `0b` notations are currently not supported and the rewriter will raise an error.
 - `String of string`: `[%yojson "abc"]`
 - `List of json list`: `[%yojson [1; 2; 3]]`. It supports mixed type list as well such as
