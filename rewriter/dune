@@ -6,9 +6,4 @@
     ppx_yojson_lib
     ppxlib
   )
-  (preprocess
-    (pps
-      ppxlib.metaquot
-    )
-  )
 )
