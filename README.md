@@ -38,7 +38,7 @@ let json =
   ]
 ```
 
-### How to use it
+## Installation and usage
 
 You can install `ppx_yojson` using [opam](https://opam.ocaml.org/):
 ```
@@ -54,6 +54,8 @@ If you're building your library or app with dune, add the following field to you
 You can now use the `%yojson` extension in your code. See the
 [expressions](https://github.com/NathanReb/ppx_yojson#expressions) and
 [patterns](https://github.com/NathanReb/ppx_yojson#patterns) sections for the detailed syntax.
+
+## Syntax
 
 ### Expressions
 
