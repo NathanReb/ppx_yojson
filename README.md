@@ -11,6 +11,8 @@ Based on an original idea by [@emillon](https://github.com/emillon).
 `ppx_yojson` lets you write `Yojson` expressions and patterns using ocaml syntax to make your code
 more concise and readable.
 
+It rewrites `%yojson` extension points based on the content of the payload.
+
 For example you can turn:
 ```ocaml
 let json =
