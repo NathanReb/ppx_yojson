@@ -1,4 +1,4 @@
-open Yojson.Safe
+type json = Yojson.Safe.json [@@warning "-3"]
 
 let null : json = [%yojson None]
 let true_ : json = [%yojson true]
