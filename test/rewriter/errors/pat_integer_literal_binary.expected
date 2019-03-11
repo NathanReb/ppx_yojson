@@ -1,0 +1,2 @@
+File "pat_integer_literal_binary.ml", line 2, characters 14-125:
+Error: ppx_yojson: unsupported payload

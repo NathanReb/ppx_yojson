@@ -2,9 +2,15 @@ let output_stanzas filename =
   let base = Filename.remove_extension filename in
   Printf.printf
     {|
+(library
+  (name %s)
+  (modules %s)
+  (preprocess (pps ppx_yojson))
+)
+
 (rule
   (targets %s.actual)
-  (deps (:pp pp.exe) (:input %s))
+  (deps (:pp pp.exe) (:input %s.ml))
   (action
     (with-stderr-to
       %%{targets}
@@ -19,7 +25,9 @@ let output_stanzas filename =
 )
 |}
     base
-    filename
+    base
+    base
+    base
     base
     base
 
