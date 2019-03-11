@@ -31,18 +31,25 @@
   )
 )
 
+(executable
+  (name gen_error_dune_rules)
+  (modules gen_error_dune_rules)
+)
+
 (rule
-  (targets pp_error_integer_literal.actual)
-  (deps pp.exe (:input test_error_integer_literal.ml))
+  (targets dune.inc.gen)
+  (deps gen_error_dune_rules.exe)
   (action
-    (with-stderr-to    
-      pp_error_integer_literal.actual
-      (bash "./pp.exe -no-color --impl %{input} || true")
-    )
+    (with-stdout-to
+      %{targets}
+      (run %{deps})
+    ) 
   )
 )
 
 (alias
   (name runtest)
-  (action (diff pp_error_integer_literal.expected pp_error_integer_literal.actual))
+  (action (diff dune.inc dune.inc.gen))
 )
+
+(include dune.inc)
