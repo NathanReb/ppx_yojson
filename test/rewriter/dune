@@ -30,26 +30,3 @@
     )
   )
 )
-
-(executable
-  (name gen_error_dune_rules)
-  (modules gen_error_dune_rules)
-)
-
-(rule
-  (targets dune.inc.gen)
-  (deps gen_error_dune_rules.exe)
-  (action
-    (with-stdout-to
-      %{targets}
-      (run %{deps})
-    ) 
-  )
-)
-
-(alias
-  (name runtest)
-  (action (diff dune.inc dune.inc.gen))
-)
-
-(include dune.inc)

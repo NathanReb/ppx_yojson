@@ -23,16 +23,10 @@ let output_stanzas filename =
     base
     base
 
-let prefix filename =
-  try Some (String.sub filename 0 (String.length "test_error"))
-  with Invalid_argument _ -> None
-
-let is_error_test filename =
-  let prefix = prefix filename in
-  let extension = Filename.extension filename in
-  match prefix, extension with
-  | Some "test_error", ".ml" -> true
-  | _ -> false
+let is_error_test = function
+  | "pp.ml" -> false
+  | "gen_dune_rules.ml" -> false
+  | filename -> Filename.check_suffix filename ".ml"
 
 let () =
   Sys.readdir "."
