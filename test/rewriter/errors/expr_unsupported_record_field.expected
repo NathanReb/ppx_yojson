@@ -1,0 +1,2 @@
+File "expr_unsupported_record_field.ml", line 1, characters 41-48:
+Error: ppx_yojson: unsupported record field

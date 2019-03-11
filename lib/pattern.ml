@@ -9,7 +9,7 @@ let expand_int ~loc ~ppat_loc s =
   | Some i -> [%pat? `Int [%p Ast_builder.Default.pint ~loc i]]
   | None when Integer_const.is_binary s -> Raise.unsupported_payload ~loc:ppat_loc
   | None when Integer_const.is_octal s -> Raise.unsupported_payload ~loc:ppat_loc
-  | None when Integer_const.is_binary s -> Raise.unsupported_payload ~loc:ppat_loc
+  | None when Integer_const.is_hexadecimal s -> Raise.unsupported_payload ~loc:ppat_loc
   | None -> expand_intlit ~loc s
 
 let expand_float ~loc s = [%pat? `Float [%p Ast_builder.Default.pfloat ~loc s]]
