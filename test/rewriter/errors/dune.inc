@@ -9,9 +9,13 @@
   (targets expr_anti_quotation_payload.actual)
   (deps (:pp pp.exe) (:input expr_anti_quotation_payload.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -31,9 +35,13 @@
   (targets expr_integer_literal_binary.actual)
   (deps (:pp pp.exe) (:input expr_integer_literal_binary.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -53,9 +61,13 @@
   (targets expr_integer_literal_hex.actual)
   (deps (:pp pp.exe) (:input expr_integer_literal_hex.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -75,9 +87,13 @@
   (targets expr_integer_literal_octal.actual)
   (deps (:pp pp.exe) (:input expr_integer_literal_octal.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -97,9 +113,13 @@
   (targets expr_unsupported_payload.actual)
   (deps (:pp pp.exe) (:input expr_unsupported_payload.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -119,9 +139,13 @@
   (targets expr_unsupported_record_field.actual)
   (deps (:pp pp.exe) (:input expr_unsupported_record_field.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -141,9 +165,13 @@
   (targets pat_integer_literal_binary.actual)
   (deps (:pp pp.exe) (:input pat_integer_literal_binary.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -163,9 +191,13 @@
   (targets pat_integer_literal_hex.actual)
   (deps (:pp pp.exe) (:input pat_integer_literal_hex.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -185,9 +217,13 @@
   (targets pat_integer_literal_octal.actual)
   (deps (:pp pp.exe) (:input pat_integer_literal_octal.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -207,9 +243,13 @@
   (targets pat_too_many_record_field.actual)
   (deps (:pp pp.exe) (:input pat_too_many_record_field.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -229,9 +269,13 @@
   (targets pat_unsupported_payload.actual)
   (deps (:pp pp.exe) (:input pat_unsupported_payload.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )
@@ -251,9 +295,13 @@
   (targets pat_unsupported_record_field.actual)
   (deps (:pp pp.exe) (:input pat_unsupported_record_field.ml))
   (action
-    (with-stderr-to
-      %{targets}
-      (bash "./%{pp} -no-color --impl %{input} || true")
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
     )
   )
 )

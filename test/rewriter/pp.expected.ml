@@ -1,28 +1,28 @@
-type json = Yojson.Safe.json[@@warning "-3"]
-let null : json = `Null
-let true_ : json = `Bool true
-let false_ : json = `Bool false
-let string : json = `String "a"
-let int : json = `Int 1
-let int_lit : json = `Intlit "4611686018427387904"
-let float : json = `Float 1.2e+10
-let empty_array : json = `List []
-let array : json = `List [`Int 1; `Int 2; `Int 3]
-let mixed_array : json = `List [`Bool true; `Int 1; `String "a"]
-let record : json =
+type json = Yojson.Safe.t
+let null = `Null
+let true_ = `Bool true
+let false_ = `Bool false
+let string = `String "a"
+let int = `Int 1
+let int_lit = `Intlit "4611686018427387904"
+let float = `Float 1.2e+10
+let empty_array = `List []
+let array = `List [`Int 1; `Int 2; `Int 3]
+let mixed_array = `List [`Bool true; `Int 1; `String "a"]
+let record =
   `Assoc [("a", (`Bool true)); ("b", (`Int 1)); ("c", (`String "a"))]
-let complex : json =
+let complex =
   `Assoc
     [("description", (`String "Some written thing"));
     ("authors",
       (`List
          [`Assoc [("name", (`String "Kurt Cobain")); ("age", (`Int 27))];
          `Assoc [("name", (`String "Jesus Christ")); ("age", (`Int 33))]]))]
-let anti_quotation : json = `Assoc [("a", (`String "a")); ("b", (`Int 1))]
-let int_64 : json = `Intlit "1"
-let int_32 : json = `Intlit "1"
-let native_int : json = `Intlit "1"
-let patterns : json -> unit =
+let anti_quotation = `Assoc [("a", (`String "a")); ("b", (`Int 1))]
+let int_64 = `Intlit "1"
+let int_32 = `Intlit "1"
+let native_int = `Intlit "1"
+let patterns =
   ((function
     | `Null as _null -> ()
     | `Bool (true) as _true -> ()
