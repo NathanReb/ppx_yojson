@@ -1,17 +1,17 @@
 type json = Yojson.Safe.t
 
-let null : json = [%yojson None]
-let true_ : json = [%yojson true]
-let false_ : json = [%yojson false]
-let string : json = [%yojson "a"]
-let int : json = [%yojson 1]
-let int_lit : json = [%yojson 4611686018427387904]
-let float : json = [%yojson 1.2e+10]
-let empty_array : json = [%yojson []]
-let array : json = [%yojson [1; 2; 3]]
-let mixed_array : json = [%yojson [true; 1; "a"]]
-let record : json = [%yojson {a = true; b = 1; c = "a"}]
-let complex : json =
+let null = [%yojson None]
+let true_ = [%yojson true]
+let false_ = [%yojson false]
+let string = [%yojson "a"]
+let int = [%yojson 1]
+let int_lit = [%yojson 4611686018427387904]
+let float = [%yojson 1.2e+10]
+let empty_array = [%yojson []]
+let array = [%yojson [1; 2; 3]]
+let mixed_array = [%yojson [true; 1; "a"]]
+let record = [%yojson {a = true; b = 1; c = "a"}]
+let complex =
   [%yojson
     { description = "Some written thing"
     ; authors =
@@ -20,12 +20,12 @@ let complex : json =
         ]
     }
   ]
-let anti_quotation : json = [%yojson {a = [%y `String "a"]; b = 1}]
-let int_64 : json = [%yojson 1L]
-let int_32 : json = [%yojson 1l]
-let native_int : json = [%yojson 1n]
+let anti_quotation = [%yojson {a = [%y `String "a"]; b = 1}]
+let int_64 = [%yojson 1L]
+let int_32 = [%yojson 1l]
+let native_int = [%yojson 1n]
 
-let patterns : json -> unit = function [@warning "-11"]
+let patterns = function [@warning "-11"]
   | [%yojson? None] as _null -> ()
   | [%yojson? true] as _true -> ()
   | [%yojson? false] as _false -> ()
