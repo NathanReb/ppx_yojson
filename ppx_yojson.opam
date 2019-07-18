@@ -18,7 +18,7 @@ depends: [
   "ounit" {with-test & >= "2.0.0"}
   "ppxlib" {>= "0.3.0"}
   "ppx_deriving" {with-test}
-  "yojson" {with-test}
+  "yojson" {>= "1.6.0" & with-test}
 ]
 pin-depends: [
   ["ppxlib.dev" "git+https://github.com/ocaml-ppx/ppxlib.git#set-error-style-standalone"]

@@ -1,4 +1,4 @@
-type json = Yojson.Safe.json[@@warning "-3"]
+type json = Yojson.Safe.t
 let null : json = `Null
 let true_ : json = `Bool true
 let false_ : json = `Bool false
