@@ -8,9 +8,7 @@ dev-repo: "git+https://github.com/NathanReb/ppx_yojson.git"
 doc: "https://nathanreb.github.io/ppx_yojson/doc"
 build: [
   [ "dune" "build" "-p" name "-j" jobs ]
-]
-run-test: [
-  [ "dune" "runtest" "-p" name "-j" jobs ]
+  [ "dune" "runtest" "-p" name "-j" jobs ] {with-test & (ocaml:version < "4.08" | ppxlib:version >= "0.8.1")}
 ]
 depends: [
   "dune" {build & >= "1.9.3"}
@@ -19,8 +17,5 @@ depends: [
   "ppxlib" {>= "0.3.0"}
   "ppx_deriving" {with-test}
   "yojson" {>= "1.6.0" & with-test}
-]
-pin-depends: [
-  ["ppxlib.dev" "git+https://github.com/ocaml-ppx/ppxlib.git#set-error-style-standalone"]
 ]
 synopsis: "PPX extension for Yojson literals and patterns"
