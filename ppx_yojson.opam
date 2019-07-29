@@ -18,7 +18,4 @@ depends: [
   "ppx_deriving" {with-test}
   "yojson" {>= "1.6.0" & with-test}
 ]
-pin-depends: [
-  ["ppxlib.dev" "git+https://github.com/ocaml-ppx/ppxlib.git#set-error-style-standalone"]
-]
 synopsis: "PPX extension for Yojson literals and patterns"
