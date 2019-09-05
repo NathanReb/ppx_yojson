@@ -126,7 +126,9 @@ Also note that there is no limitation on nesting such patterns but you probably 
 that too much.
 
 This is provided mostly for convenience. If you want efficient code and/or to handle complex json
-objects I recommend that you use `ppx_deriving_yojson` instead.
+objects I recommend that you use
+[`ppx_deriving_yojson`](https://github.com/ocaml-ppx/ppx_deriving_yojson) or
+[`ppx_yojson_conv`](https://github.com/janestreet/ppx_yojson_conv) instead.
 
 To clarify, the following code:
 ```ocaml
