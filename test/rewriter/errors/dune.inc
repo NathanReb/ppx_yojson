@@ -156,6 +156,32 @@
 )
 
 (library
+  (name pat_anti_quotation_payload)
+  (modules pat_anti_quotation_payload)
+  (preprocess (pps ppx_yojson))
+)
+
+(rule
+  (targets pat_anti_quotation_payload.actual)
+  (deps (:pp pp.exe) (:input pat_anti_quotation_payload.ml))
+  (action
+    (setenv "OCAML_ERROR_STYLE" "short"
+      (setenv "OCAML_COLOR" "never"
+        (with-stderr-to
+          %{targets}
+          (bash "./%{pp} -no-color --impl %{input} || true")
+        )
+      )
+    )
+  )
+)
+
+(alias
+  (name runtest)
+  (action (diff pat_anti_quotation_payload.expected pat_anti_quotation_payload.actual))
+)
+
+(library
   (name pat_integer_literal_binary)
   (modules pat_integer_literal_binary)
   (preprocess (pps ppx_yojson))

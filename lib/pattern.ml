@@ -20,7 +20,7 @@ let expand_anti_quotation ~ppat_loc = function
   | PPat (ppat, _) -> ppat
   | PStr _
   | PSig _
-  | PTyp _ -> Raise.bad_expr_antiquotation_payload ~loc:ppat_loc
+  | PTyp _ -> Raise.bad_pat_antiquotation_payload ~loc:ppat_loc
 
 let rec expand ~loc ~path pat =
   match pat with

@@ -14,3 +14,8 @@ let bad_expr_antiquotation_payload ~loc =
   Location.raise_errorf
     ~loc
     "ppx_yojson: bad antiquotation payload, should be a single expression"
+
+let bad_pat_antiquotation_payload ~loc =
+  Location.raise_errorf
+    ~loc
+    "ppx_yojson: bad antiquotation payload, should be a pattern"
