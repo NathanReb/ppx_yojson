@@ -1,5 +1,9 @@
 ## unreleased
 
+### Additions
+
+- Add anti-quotations `[%y? pat]` in pattern extension (#18, @noRubidium)
+
 ## 0.2.0
 
 *2018-12-04*
