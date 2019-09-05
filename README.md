@@ -80,7 +80,7 @@ regardless.
 
 #### Anti-quotation
 
-You can escape regular `Yojson` expression within a payload using `[%y json_expr]`. You can use
+You can escape regular `Yojson` expressions within a payload using `[%y json_expr]`. You can use
 this to insert variables in the payload. For example:
 
 ```ocaml
