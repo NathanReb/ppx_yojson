@@ -16,6 +16,12 @@ let expand_float ~loc s = [%pat? `Float [%p Ast_builder.Default.pfloat ~loc s]]
 
 let expand_var ~loc var = Ast_builder.Default.ppat_var ~loc var
 
+let expand_anti_quotation ~ppat_loc = function
+  | PPat (ppat, _) -> ppat
+  | PStr _
+  | PSig _
+  | PTyp _ -> Raise.bad_expr_antiquotation_payload ~loc:ppat_loc
+
 let rec expand ~loc ~path pat =
   match pat with
   | [%pat? _] -> [%pat? _]
@@ -31,6 +37,9 @@ let rec expand ~loc ~path pat =
     expand_intlit ~loc s
   | {ppat_desc = Ppat_constant (Pconst_float (s, None)); _} -> expand_float ~loc s
   | {ppat_desc = Ppat_var v; _} -> expand_var ~loc v
+  | {ppat_desc = Ppat_extension ({txt = "y"; _}, p); ppat_loc; _}
+    ->
+    expand_anti_quotation ~ppat_loc p
   | [%pat? [%p? left] | [%p? right]]
     ->
     ([%pat? [%p expand ~loc ~path left] | [%p expand ~loc ~path right]])
@@ -69,4 +78,3 @@ and expand_record ~loc ~ppat_loc ~path l =
     | [] -> assert false
     | [single] -> single
     | hd::tl -> List.fold_left (fun acc elm -> [%pat? [%p acc] | [%p elm]]) hd tl
-    
