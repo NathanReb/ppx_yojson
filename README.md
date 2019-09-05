@@ -143,3 +143,19 @@ let f = function
     | `Assoc [("b", `Bool true); ("a", `Int 1)]
     ) -> (1, true)
 ```
+
+#### Anti-quotation
+
+You can also escape regular `Yojson` patterns in `ppx_yojson` pattern extensions' payload
+using `[%y? json_pat]`. You can use it to further deconstruct a `Yojson` value. For example:
+
+```ocaml
+let f = function
+  | [%yojson? {a = [%y? `Int i]} -> i + 1
+```
+
+is expanded into:
+```ocaml
+let f = function
+  | `Assoc [("a", `Int i)] -> i + 1
+```
