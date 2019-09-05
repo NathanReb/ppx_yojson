@@ -89,5 +89,6 @@ let patterns =
     | `Intlit "1" as _int_32 -> ()
     | `Intlit "1" as _native_int -> ()
     | _s as _var -> ()
+    | `Assoc (("a", `Int _i)::[]) as _var -> ()
     | _ as _any -> ())
   [@warning "-11"])
