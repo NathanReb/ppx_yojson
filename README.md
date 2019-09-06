@@ -80,7 +80,7 @@ regardless.
 
 #### Anti-quotation
 
-You can escape regular `Yojson` expression within a payload using `[%y json_expr]`. You can use
+You can escape regular `Yojson` expressions within a payload using `[%y json_expr]`. You can use
 this to insert variables in the payload. For example:
 
 ```ocaml
@@ -126,7 +126,9 @@ Also note that there is no limitation on nesting such patterns but you probably 
 that too much.
 
 This is provided mostly for convenience. If you want efficient code and/or to handle complex json
-objects I recommend that you use `ppx_deriving_yojson` instead.
+objects I recommend that you use
+[`ppx_deriving_yojson`](https://github.com/ocaml-ppx/ppx_deriving_yojson) or
+[`ppx_yojson_conv`](https://github.com/janestreet/ppx_yojson_conv) instead.
 
 To clarify, the following code:
 ```ocaml
@@ -140,4 +142,20 @@ let f = function
   | ( `Assoc [("a", `Int 1); ("b", `Bool true)]
     | `Assoc [("b", `Bool true); ("a", `Int 1)]
     ) -> (1, true)
+```
+
+#### Anti-quotation
+
+You can also escape regular `Yojson` patterns in `ppx_yojson` pattern extensions' payload
+using `[%y? json_pat]`. You can use it to further deconstruct a `Yojson` value. For example:
+
+```ocaml
+let f = function
+  | [%yojson? {a = [%y? `Int i]} -> i + 1
+```
+
+is expanded into:
+```ocaml
+let f = function
+  | `Assoc [("a", `Int i)] -> i + 1
 ```
