@@ -3,8 +3,8 @@
  (deps test.ml)
  (action (run ./bin/pp.exe --impl %{deps} -o %{targets})))
 
-(alias
- (name runtest)
+(rule
+ (alias runtest)
  (action (diff pp.expected.ml pp.actual.ml)))
 
 (test

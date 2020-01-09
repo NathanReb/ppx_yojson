@@ -17,8 +17,8 @@ let output_stanzas filename =
           %%{targets}
           (bash "./%%{pp} -no-color --impl %%{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff %s.expected %s.actual)))
 |}
     base

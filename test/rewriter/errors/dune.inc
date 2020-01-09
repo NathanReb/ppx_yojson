@@ -14,8 +14,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff expr_anti_quotation_payload.expected expr_anti_quotation_payload.actual)))
 
 (library
@@ -33,8 +33,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff expr_integer_literal_binary.expected expr_integer_literal_binary.actual)))
 
 (library
@@ -52,8 +52,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff expr_integer_literal_hex.expected expr_integer_literal_hex.actual)))
 
 (library
@@ -71,8 +71,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff expr_integer_literal_octal.expected expr_integer_literal_octal.actual)))
 
 (library
@@ -90,8 +90,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff expr_unsupported_payload.expected expr_unsupported_payload.actual)))
 
 (library
@@ -109,8 +109,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff expr_unsupported_record_field.expected expr_unsupported_record_field.actual)))
 
 (library
@@ -128,8 +128,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff pat_anti_quotation_payload.expected pat_anti_quotation_payload.actual)))
 
 (library
@@ -147,8 +147,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff pat_integer_literal_binary.expected pat_integer_literal_binary.actual)))
 
 (library
@@ -166,8 +166,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff pat_integer_literal_hex.expected pat_integer_literal_hex.actual)))
 
 (library
@@ -185,8 +185,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff pat_integer_literal_octal.expected pat_integer_literal_octal.actual)))
 
 (library
@@ -204,8 +204,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff pat_too_many_record_field.expected pat_too_many_record_field.actual)))
 
 (library
@@ -223,8 +223,8 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff pat_unsupported_payload.expected pat_unsupported_payload.actual)))
 
 (library
@@ -242,6 +242,6 @@
           %{targets}
           (bash "./%{pp} -no-color --impl %{input} || true"))))))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (diff pat_unsupported_record_field.expected pat_unsupported_record_field.actual)))
