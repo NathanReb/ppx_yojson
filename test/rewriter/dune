@@ -1,32 +1,14 @@
-(executable
-  (name pp)
-  (modules pp)
-  (libraries
-    ppx_yojson
-    ppxlib
-  )
-)
-
 (rule
-  (targets pp.actual.ml)
-  (deps test.ml)
-  (action (run ./pp.exe --impl %{deps} -o %{targets}))
-)
+ (targets pp.actual.ml)
+ (deps test.ml)
+ (action (run ./bin/pp.exe --impl %{deps} -o %{targets})))
 
 (alias
-  (name runtest)
-  (action (diff pp.expected.ml pp.actual.ml))
-)
+ (name runtest)
+ (action (diff pp.expected.ml pp.actual.ml)))
 
 (test
-  (name test)
-  (modules test)
-  (libraries
-    yojson
-  )
-  (preprocess
-    (pps
-      ppx_yojson
-    )
-  )
-)
+ (name test)
+ (modules test)
+ (libraries yojson)
+ (preprocess (pps ppx_yojson)))

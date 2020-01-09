@@ -1,34 +1,12 @@
-(executable
-  (name pp)
-  (modules pp)
-  (libraries
-    ppx_yojson
-    ppxlib
-  )
-)
-
 (include dune.inc)
-
-(executable
-  (name gen_dune_rules)
-  (modules gen_dune_rules)
-)
 
 (rule
   (targets dune.inc.gen)
-  (deps
-    (:gen gen_dune_rules.exe)
-    (source_tree .)
-  )
+  (deps (source_tree .))
   (action
-    (with-stdout-to
-      %{targets}
-      (run %{gen})
-    ) 
-  )
-)
+    (with-stdout-to %{targets}
+      (run ./bin/gen_dune_rules.exe))))
 
 (alias
   (name runtest)
-  (action (diff dune.inc dune.inc.gen))
-)
+  (action (diff dune.inc dune.inc.gen)))

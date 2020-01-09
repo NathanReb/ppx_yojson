@@ -18,5 +18,3 @@
   (ppxlib (>= 0.3.0))
   (ppx_deriving :with-test)
   (yojson (and :with-test (>= 1.6.0)))))
-
-(allow_approximate_merlin)

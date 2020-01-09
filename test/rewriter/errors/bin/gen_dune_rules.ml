@@ -5,28 +5,21 @@ let output_stanzas filename =
 (library
   (name %s)
   (modules %s)
-  (preprocess (pps ppx_yojson))
-)
+  (preprocess (pps ppx_yojson)))
 
 (rule
   (targets %s.actual)
-  (deps (:pp pp.exe) (:input %s.ml))
+  (deps (:pp bin/pp.exe) (:input %s.ml))
   (action
     (setenv "OCAML_ERROR_STYLE" "short"
       (setenv "OCAML_COLOR" "never"
         (with-stderr-to
           %%{targets}
-          (bash "./%%{pp} -no-color --impl %%{input} || true")
-        )
-      )
-    )
-  )
-)
+          (bash "./%%{pp} -no-color --impl %%{input} || true"))))))
 
 (alias
   (name runtest)
-  (action (diff %s.expected %s.actual))
-)
+  (action (diff %s.expected %s.actual)))
 |}
     base
     base
@@ -35,10 +28,8 @@ let output_stanzas filename =
     base
     base
 
-let is_error_test = function
-  | "pp.ml" -> false
-  | "gen_dune_rules.ml" -> false
-  | filename -> Filename.check_suffix filename ".ml"
+let is_error_test filename =
+  Filename.check_suffix filename ".ml"
 
 let () =
   Sys.readdir "."
