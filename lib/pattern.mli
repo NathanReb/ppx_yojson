@@ -1,7 +1,7 @@
 (** Pattern rewriting *)
 
 val expand :
-  loc: Ppxlib.Location.t ->
+  loc: Ppx.Location.t ->
   path: string ->
-  Ppxlib.pattern ->
-  Ppxlib.pattern
+  Ppx.pattern ->
+  Ppx.pattern

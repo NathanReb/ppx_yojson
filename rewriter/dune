@@ -4,6 +4,6 @@
   (kind ppx_rewriter)
   (libraries
     ppx_yojson_lib
-    ppxlib
+    ppx
   )
 )

@@ -1,7 +1,7 @@
 (** Expression rewriting *)
 
 val expand :
-  loc: Ppxlib.Location.t ->
+  loc: Ppx.Location.t ->
   path: string ->
-  Ppxlib.expression ->
-  Ppxlib.expression
+  Ppx.expression ->
+  Ppx.expression
