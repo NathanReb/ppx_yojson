@@ -14,5 +14,5 @@
  (depends
   (ocaml (>= 4.04.2))
   (alcotest :with-test)
-  (ppxlib (and (>= 0.3.0) (< 0.18.0)))
+  (ppxlib (>= 0.18.0))
   (yojson (and :with-test (>= 1.6.0)))))
