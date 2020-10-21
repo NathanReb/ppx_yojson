@@ -1,3 +1,9 @@
+## unreleased
+
+### Added
+
+- Make ppx_yojson fully compatible with 4.11 (#22, @NathanReb)
+
 ## 1.0.0
 
 ### Additions
