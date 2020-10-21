@@ -29,7 +29,7 @@ let rec expand ~loc ~path expr =
   | [%expr None] -> [%expr `Null]
   | [%expr true] -> [%expr `Bool true]
   | [%expr false] -> [%expr `Bool false]
-  | { pexp_desc = Pexp_constant (Pconst_string (s, None)); _ } ->
+  | { pexp_desc = Pexp_constant (Pconst_string (s, _, None)); _ } ->
       expand_string ~loc s
   | { pexp_desc = Pexp_constant (Pconst_integer (s, None)); pexp_loc; _ } ->
       expand_int ~loc ~pexp_loc s

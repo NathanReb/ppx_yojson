@@ -32,7 +32,7 @@ let rec expand ~loc ~path pat =
   | [%pat? None] -> [%pat? `Null]
   | [%pat? true] -> [%pat? `Bool true]
   | [%pat? false] -> [%pat? `Bool false]
-  | { ppat_desc = Ppat_constant (Pconst_string (s, None)); _ } ->
+  | { ppat_desc = Ppat_constant (Pconst_string (s, _, None)); _ } ->
       expand_string ~loc s
   | { ppat_desc = Ppat_constant (Pconst_integer (s, None)); ppat_loc; _ } ->
       expand_int ~loc ~ppat_loc s
