@@ -1,10 +1,8 @@
 (executable
  (name pp)
  (modules pp)
- (libraries
-  ppx_yojson
-  ppxlib))
+ (libraries ppx_yojson ppxlib))
 
 (executable
-  (name gen_dune_rules)
-  (modules gen_dune_rules))
+ (name gen_dune_rules)
+ (modules gen_dune_rules))

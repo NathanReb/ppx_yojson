@@ -21,19 +21,10 @@ let output_stanzas filename =
   (alias runtest)
   (action (diff %s.expected %s.actual)))
 |}
-    base
-    base
-    base
-    base
-    base
-    base
+    base base base base base base
 
-let is_error_test filename =
-  Filename.check_suffix filename ".ml"
+let is_error_test filename = Filename.check_suffix filename ".ml"
 
 let () =
-  Sys.readdir "."
-  |> Array.to_list
-  |> List.sort String.compare
-  |> List.filter is_error_test
-  |> List.iter output_stanzas
+  Sys.readdir "." |> Array.to_list |> List.sort String.compare
+  |> List.filter is_error_test |> List.iter output_stanzas

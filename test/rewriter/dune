@@ -1,14 +1,17 @@
 (rule
  (targets pp.actual.ml)
  (deps test.ml)
- (action (run ./bin/pp.exe --impl %{deps} -o %{targets})))
+ (action
+  (run ./bin/pp.exe --impl %{deps} -o %{targets})))
 
 (rule
  (alias runtest)
- (action (diff pp.expected.ml pp.actual.ml)))
+ (action
+  (diff pp.expected.ml pp.actual.ml)))
 
 (test
  (name test)
  (modules test)
  (libraries yojson)
- (preprocess (pps ppx_yojson)))
+ (preprocess
+  (pps ppx_yojson)))
