@@ -9,9 +9,8 @@ bug-reports: "https://github.com/NathanReb/ppx_yojson/issues"
 depends: [
   "dune" {>= "2.1"}
   "ocaml" {>= "4.04.2"}
-  "ounit" {with-test & >= "2.0.0"}
+  "alcotest" {with-test}
   "ppxlib" {>= "0.3.0"}
-  "ppx_deriving" {with-test}
   "yojson" {with-test & >= "1.6.0"}
 ]
 build: [

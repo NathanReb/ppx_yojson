@@ -13,7 +13,6 @@
  (synopsis "PPX extension for Yojson literals and patterns")
  (depends
   (ocaml (>= 4.04.2))
-  (ounit (and :with-test (>= 2.0.0)))
+  (alcotest :with-test)
   (ppxlib (>= 0.3.0))
-  (ppx_deriving :with-test)
   (yojson (and :with-test (>= 1.6.0)))))

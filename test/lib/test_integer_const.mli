@@ -1,1 +1,1 @@
-val suite : OUnit2.test
+val suite : unit Alcotest.test
