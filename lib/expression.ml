@@ -18,13 +18,51 @@ module type S = sig
   val expand_string : loc:location -> string -> expression
 end
 
-module Yojson : S = struct
+module Common = struct
   let expand_bool ~loc = function
     | true -> [%expr `Bool true]
     | false -> [%expr `Bool false]
 
   let expand_float ~loc s =
     [%expr `Float [%e Ast_builder.Default.efloat ~loc s]]
+
+  let expand_none ~loc () = [%expr `Null]
+
+  let expand_string ~loc s =
+    [%expr `String [%e Ast_builder.Default.estring ~loc s]]
+
+  let expand_list ~loc wrap exprs = wrap (Ast_builder.Default.elist ~loc exprs)
+
+  let expand_record ~loc wrap fields =
+    let fields =
+      let f (name, value) =
+        [%expr [%e Ast_builder.Default.estring ~loc name], [%e value]]
+      in
+      List.map f fields
+    in
+    wrap (Ast_builder.Default.elist ~loc fields)
+end
+
+module Ezjsonm : S = struct
+  include Common
+
+  let expand_intlit ~loc _ = Raise.unsupported_payload ~loc
+
+  let expand_int ~loc ~pexp_loc s =
+    match Ocaml_compat.int_of_string_opt s with
+    | Some i ->
+        [%expr `Float [%e Ast_builder.Default.efloat ~loc (string_of_int i)]]
+    | _ -> Raise.unsupported_payload ~loc:pexp_loc
+
+  let expand_list ~loc exprs =
+    expand_list ~loc (fun e -> [%expr `A [%e e]]) exprs
+
+  let expand_record ~loc fields =
+    expand_record ~loc (fun e -> [%expr `O [%e e]]) fields
+end
+
+module Yojson : S = struct
+  include Common
 
   let expand_intlit ~loc s =
     [%expr `Intlit [%e Ast_builder.Default.estring ~loc s]]
@@ -41,21 +79,10 @@ module Yojson : S = struct
     | None -> expand_intlit ~loc s
 
   let expand_list ~loc exprs =
-    [%expr `List [%e Ast_builder.Default.elist ~loc exprs]]
-
-  let expand_none ~loc () = [%expr `Null]
+    expand_list ~loc (fun e -> [%expr `List [%e e]]) exprs
 
   let expand_record ~loc fields =
-    let fields =
-      let f (name, value) =
-        [%expr [%e Ast_builder.Default.estring ~loc name], [%e value]]
-      in
-      List.map f fields
-    in
-    [%expr `Assoc [%e Ast_builder.Default.elist ~loc fields]]
-
-  let expand_string ~loc s =
-    [%expr `String [%e Ast_builder.Default.estring ~loc s]]
+    expand_record ~loc (fun e -> [%expr `Assoc [%e e]]) fields
 end
 
 module Make (Impl : S) = struct
@@ -106,6 +133,10 @@ module Make (Impl : S) = struct
     List.map expand_one l
 end
 
-let expand =
+let expand_ezjsonm =
+  let module Impl = Make (Ezjsonm) in
+  Impl.expand
+
+let expand_yojson =
   let module Impl = Make (Yojson) in
   Impl.expand
