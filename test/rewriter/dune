@@ -1,17 +1,35 @@
 (rule
- (targets pp.actual.ml)
- (deps test.ml)
+ (targets ezjsonm.actual.ml)
+ (deps ezjsonm.ml)
  (action
   (run ./bin/pp.exe --impl %{deps} -o %{targets})))
 
 (rule
  (alias runtest)
  (action
-  (diff pp.expected.ml pp.actual.ml)))
+  (diff ezjsonm.expected.ml ezjsonm.actual.ml)))
+
+(rule
+ (targets yojson.actual.ml)
+ (deps yojson.ml)
+ (action
+  (run ./bin/pp.exe --impl %{deps} -o %{targets})))
+
+(rule
+ (alias runtest)
+ (action
+  (diff yojson.expected.ml yojson.actual.ml)))
 
 (test
- (name test)
- (modules test)
+ (name yojson)
+ (modules yojson)
  (libraries yojson)
+ (preprocess
+  (pps ppx_yojson)))
+
+(test
+ (name ezjsonm)
+ (modules ezjsonm)
+ (libraries ezjsonm)
  (preprocess
   (pps ppx_yojson)))
