@@ -1,4 +1,5 @@
 [@@@warning "-32"]
+type json = Ezjsonm.value
 let null = `Null
 let true_ = `Bool true
 let false_ = `Bool false

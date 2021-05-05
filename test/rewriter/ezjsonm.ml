@@ -1,5 +1,7 @@
 [@@@warning "-32"]
 
+type json = Ezjsonm.value
+
 let null = [%ezjsonm None]
 let true_ = [%ezjsonm true]
 let false_ = [%ezjsonm false]
