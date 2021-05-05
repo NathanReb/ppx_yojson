@@ -1,8 +1,18 @@
-## 1.2.0
+## unreleased
 
 ### Added
 
 - Support `%ezjsonm` extension to output Ezjsonm-compatible values.
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
 
 ## 1.1.0
 
