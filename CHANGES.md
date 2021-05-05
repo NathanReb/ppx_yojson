@@ -2,6 +2,9 @@
 
 ### Added
 
+- Support `%ezjsonm` extension to output Ezjsonm-compatible values.
+  (#<PR_NUMBER>, @mefyl)
+
 ### Changed
 
 ### Deprecated
