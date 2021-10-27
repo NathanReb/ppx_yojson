@@ -17,7 +17,7 @@ let expand_int ~loc ~pexp_loc s =
       Raise.unsupported_payload ~loc:pexp_loc
   | None -> expand_intlit ~loc s
 
-let expand_float ~loc s = [%expr `Float [%e Ast_builder.Default.efloat ~loc s]]
+  let expand_float ~loc s = [%expr `Float [%e Ast_builder.Default.efloat ~loc s]]
 
 let expand_anti_quotation ~pexp_loc = function
   | PStr [ { pstr_desc = Pstr_eval (expr, _); _ } ] -> expr
@@ -58,11 +58,11 @@ and expand_list ~loc ~path = function
 
 and expand_record ~loc ~path l =
   let field = function
-    | { txt = Lident s; _ } -> [%expr [%e Ast_builder.Default.estring ~loc s]]
+    | { txt = Lident s; _ } -> Ast_builder.Default.estring ~loc s
     | { txt = _; loc } -> Raise.unsupported_record_field ~loc
   in
   let expand_one (f, e) =
     [%expr [%e field f], [%e expand ~loc:e.pexp_loc ~path e]]
   in
   let expr_list = List.map expand_one l in
-  [%expr [%e Ast_builder.Default.elist ~loc expr_list]]
+  Ast_builder.Default.elist ~loc expr_list
