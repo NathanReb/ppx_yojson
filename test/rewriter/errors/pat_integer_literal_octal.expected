@@ -1,2 +1,4 @@
 File "pat_integer_literal_octal.ml", line 2, characters 14-61:
+2 |   | [%yojson? 0o777777777777777777777777777777777777777777777] -> false
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Error: ppx_yojson: unsupported payload

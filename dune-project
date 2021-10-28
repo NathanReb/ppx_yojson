@@ -1,4 +1,4 @@
-(lang dune 2.1)
+(lang dune 2.2)
 
 (generate_opam_files true)
 
@@ -12,7 +12,7 @@
  (name ppx_yojson)
  (synopsis "PPX extension for Yojson literals and patterns")
  (depends
-  (ocaml (>= 4.04.2))
+  (ocaml (>= 4.08))
   (alcotest :with-test)
   (ppxlib (>= 0.18.0))
   (yojson (and :with-test (>= 1.6.0)))))

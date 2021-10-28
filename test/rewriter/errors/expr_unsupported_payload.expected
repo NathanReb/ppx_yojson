@@ -1,2 +1,4 @@
 File "expr_unsupported_payload.ml", line 1, characters 35-40:
+1 | let unsupported_payload = [%yojson Ok ()]
+                                       ^^^^^
 Error: ppx_yojson: unsupported payload

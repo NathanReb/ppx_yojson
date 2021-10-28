@@ -1,2 +1,4 @@
 File "pat_anti_quotation_payload.ml", line 2, characters 14-26:
+2 |   | [%yojson? [%y `Int _a]] -> false
+                  ^^^^^^^^^^^^
 Error: ppx_yojson: bad antiquotation payload, should be a pattern
