@@ -2,26 +2,21 @@ let output_stanzas filename =
   let base = Filename.remove_extension filename in
   Printf.printf
     {|
-(library
-  (name %s)
-  (modules %s)
-  (preprocess (pps ppx_yojson)))
-
 (rule
   (targets %s.actual)
   (deps (:pp bin/pp.exe) (:input %s.ml))
   (action
-    (setenv "OCAML_ERROR_STYLE" "short"
+    (with-accepted-exit-codes 1
       (setenv "OCAML_COLOR" "never"
         (with-stderr-to
           %%{targets}
-          (bash "./%%{pp} -no-color --impl %%{input} || true"))))))
+          (run ./%%{pp} -no-color --impl %%{input}))))))
 
 (rule
   (alias runtest)
   (action (diff %s.expected %s.actual)))
 |}
-    base base base base base base
+    base base base base
 
 let is_error_test filename = Filename.check_suffix filename ".ml"
 

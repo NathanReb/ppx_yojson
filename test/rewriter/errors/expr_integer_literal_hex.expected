@@ -1,2 +1,4 @@
 File "expr_integer_literal_hex.ml", line 1, characters 39-83:
+1 | let invalid_integer_literal = [%yojson 0xffffffffffffffffffffffffffffffffffffffffff]
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Error: ppx_yojson: unsupported payload
