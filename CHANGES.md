@@ -4,7 +4,7 @@
 
 - Support `%ezjsonm` extension to output Ezjsonm-compatible values.
   (#31, @mefyl)
-- Add generic antiquotation syntax `[%aq ...]` (#<PR_NUMBER>, @NathanReb)
+- Add generic antiquotation syntax `[%aq ...]` (#32, @NathanReb)
 
 ### Changed
 
