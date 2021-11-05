@@ -18,4 +18,5 @@ let complex =
       (`A
          [`O [("name", (`String "Kurt Cobain")); ("age", (`Float 27))];
          `O [("name", (`String "Jesus Christ")); ("age", (`Float 33))]]))]
+let legacy_anti_quotation = `O [("a", (`String "a")); ("b", (`Float 1))]
 let anti_quotation = `O [("a", (`String "a")); ("b", (`Float 1))]

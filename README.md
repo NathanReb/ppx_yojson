@@ -80,19 +80,19 @@ regardless.
 
 #### Anti-quotation
 
-You can escape regular `Yojson` expressions within a payload using `[%y json_expr]`. You can use
+You can escape regular `Yojson` expressions within a payload using `[%aq json_expr]`. You can use
 this to insert variables in the payload. For example:
 
 ```ocaml
 let a = `String "a"
-let json = [%yojson { a = [%y a]; b = "b"}]
+let json = [%yojson { a = [%aq a]; b = "b"}]
 ```
 is rewritten as:
 ```ocaml
 let a = `String "a"
 let json = `Assoc [("a", a); (b, `String "b")]
 ```
-Note that the payload in a `%y` extension should always subtype one of the `Yojson` types.
+Note that the payload in a `%aq` extension should always subtype one of the `Yojson` types.
 
 ### Patterns
 
@@ -147,11 +147,11 @@ let f = function
 #### Anti-quotation
 
 You can also escape regular `Yojson` patterns in `ppx_yojson` pattern extensions' payload
-using `[%y? json_pat]`. You can use it to further deconstruct a `Yojson` value. For example:
+using `[%aq? json_pat]`. You can use it to further deconstruct a `Yojson` value. For example:
 
 ```ocaml
 let f = function
-  | [%yojson? {a = [%y? `Int i]} -> i + 1
+  | [%yojson? {a = [%aq? `Int i]} -> i + 1
 ```
 
 is expanded into:

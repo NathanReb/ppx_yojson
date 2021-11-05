@@ -12,6 +12,7 @@ val array : json
 val mixed_array : json
 val record : json
 val complex : json
+val legacy_anti_quotation : json
 val anti_quotation : json
 val int_64 : json
 val int_32 : json

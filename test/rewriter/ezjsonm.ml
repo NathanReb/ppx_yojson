@@ -21,4 +21,5 @@ let complex =
         ]
     }
   ]
-let anti_quotation = [%ezjsonm {a = [%y `String "a"]; b = 1}]
+let legacy_anti_quotation = [%ezjsonm {a = [%y `String "a"]; b = 1}]
+let anti_quotation = [%ezjsonm {a = [%aq `String "a"]; b = 1}]

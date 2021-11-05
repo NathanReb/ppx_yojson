@@ -44,7 +44,7 @@ let rec expand ~loc ~path pat =
   | { ppat_desc = Ppat_constant (Pconst_float (s, None)); _ } ->
       expand_float ~loc s
   | { ppat_desc = Ppat_var v; _ } -> expand_var ~loc v
-  | { ppat_desc = Ppat_extension ({ txt = "y"; _ }, p); ppat_loc; _ } ->
+  | { ppat_desc = Ppat_extension ({ txt = "y" | "aq"; _ }, p); ppat_loc; _ } ->
       expand_anti_quotation ~ppat_loc p
   | [%pat? [%p? left] | [%p? right]] ->
       [%pat? [%p expand ~loc ~path left] | [%p expand ~loc ~path right]]
