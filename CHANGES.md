@@ -3,7 +3,7 @@
 ### Added
 
 - Support `%ezjsonm` extension to output Ezjsonm-compatible values.
-  (#<PR_NUMBER>, @mefyl)
+  (#31, @mefyl)
 
 ### Changed
 
