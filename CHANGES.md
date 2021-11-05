@@ -2,6 +2,9 @@
 
 ### Added
 
+- Support `%ezjsonm` extension to output Ezjsonm-compatible values.
+  (#31, @mefyl)
+
 ### Changed
 
 ### Deprecated
