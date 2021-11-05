@@ -1,6 +1,6 @@
 open Ppxlib
 
-module type S = sig
+module type EXPANDER = sig
   val expand_bool : loc:location -> bool -> expression
 
   val expand_float : loc:location -> string -> expression
@@ -14,6 +14,8 @@ module type S = sig
   val expand_none : loc:location -> unit -> expression
 
   val expand_record : loc:location -> (string * expression) list -> expression
+  (** Expands a list of field names and associated expanded expressions into 
+      the corresponding JSON object encoding. *)
 
   val expand_string : loc:location -> string -> expression
 end
@@ -43,7 +45,7 @@ module Common = struct
     wrap (Ast_builder.Default.elist ~loc fields)
 end
 
-module Ezjsonm : S = struct
+module Ezjsonm_expander : EXPANDER = struct
   include Common
 
   let expand_intlit ~loc _ = Raise.unsupported_payload ~loc
@@ -61,7 +63,7 @@ module Ezjsonm : S = struct
     expand_record ~loc (fun e -> [%expr `O [%e e]]) fields
 end
 
-module Yojson : S = struct
+module Yojson_expander : EXPANDER = struct
   include Common
 
   let expand_intlit ~loc s =
@@ -85,7 +87,7 @@ module Yojson : S = struct
     expand_record ~loc (fun e -> [%expr `Assoc [%e e]]) fields
 end
 
-module Make (Impl : S) = struct
+module Make (Expander : EXPANDER) = struct
   let expand_anti_quotation ~pexp_loc = function
     | PStr [ { pstr_desc = Pstr_eval (expr, _); _ } ] -> expr
     | PStr _ | PSig _ | PTyp _ | PPat _ ->
@@ -93,25 +95,25 @@ module Make (Impl : S) = struct
 
   let rec expand ~loc ~path expr =
     match expr with
-    | [%expr None] -> Impl.expand_none ~loc ()
-    | [%expr true] -> Impl.expand_bool ~loc true
-    | [%expr false] -> Impl.expand_bool ~loc false
+    | [%expr None] -> Expander.expand_none ~loc ()
+    | [%expr true] -> Expander.expand_bool ~loc true
+    | [%expr false] -> Expander.expand_bool ~loc false
     | { pexp_desc = Pexp_constant (Pconst_string (s, _, None)); _ } ->
-        Impl.expand_string ~loc s
+        Expander.expand_string ~loc s
     | { pexp_desc = Pexp_constant (Pconst_integer (s, None)); pexp_loc; _ } ->
-        Impl.expand_int ~loc ~pexp_loc s
+        Expander.expand_int ~loc ~pexp_loc s
     | {
      pexp_desc = Pexp_constant (Pconst_integer (s, Some ('l' | 'L' | 'n')));
      _;
     } ->
-        Impl.expand_intlit ~loc s
+        Expander.expand_intlit ~loc s
     | { pexp_desc = Pexp_constant (Pconst_float (s, None)); _ } ->
-        Impl.expand_float ~loc s
-    | [%expr []] -> Impl.expand_list ~loc []
+        Expander.expand_float ~loc s
+    | [%expr []] -> Expander.expand_list ~loc []
     | [%expr [%e? _] :: [%e? _]] ->
-        Impl.expand_list ~loc (expand_list ~loc ~path expr)
+        Expander.expand_list ~loc (expand_list ~loc ~path expr)
     | { pexp_desc = Pexp_record (l, None); _ } ->
-        Impl.expand_record ~loc (expand_record ~path l)
+        Expander.expand_record ~loc (expand_record ~path l)
     | { pexp_desc = Pexp_extension ({ txt = "y"; _ }, p); pexp_loc; _ } ->
         expand_anti_quotation ~pexp_loc p
     | _ -> Raise.unsupported_payload ~loc:expr.pexp_loc
@@ -133,10 +135,9 @@ module Make (Impl : S) = struct
     List.map expand_one l
 end
 
-let expand_ezjsonm =
-  let module Impl = Make (Ezjsonm) in
-  Impl.expand
+module Ezjsonm = Make (Ezjsonm_expander)
+module Yojson = Make (Yojson_expander)
 
-let expand_yojson =
-  let module Impl = Make (Yojson) in
-  Impl.expand
+let expand_ezjsonm = Ezjsonm.expand
+
+let expand_yojson = Yojson.expand
