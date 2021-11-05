@@ -51,7 +51,7 @@ module Ezjsonm_expander : EXPANDER = struct
   let expand_intlit ~loc _ = Raise.unsupported_payload ~loc
 
   let expand_int ~loc ~pexp_loc s =
-    match Ocaml_compat.int_of_string_opt s with
+    match int_of_string_opt s with
     | Some i ->
         [%expr `Float [%e Ast_builder.Default.efloat ~loc (string_of_int i)]]
     | _ -> Raise.unsupported_payload ~loc:pexp_loc
@@ -70,7 +70,7 @@ module Yojson_expander : EXPANDER = struct
     [%expr `Intlit [%e Ast_builder.Default.estring ~loc s]]
 
   let expand_int ~loc ~pexp_loc s =
-    match Ocaml_compat.int_of_string_opt s with
+    match int_of_string_opt s with
     | Some i -> [%expr `Int [%e Ast_builder.Default.eint ~loc i]]
     | None when Integer_const.is_binary s ->
         Raise.unsupported_payload ~loc:pexp_loc
