@@ -20,7 +20,8 @@ let complex =
         ]
     }
   ]
-let anti_quotation = [%yojson {a = [%y `String "a"]; b = 1}]
+let legacy_anti_quotation = [%yojson {a = [%y `String "a"]; b = 1}]
+let anti_quotation = [%yojson {a = [%aq `String "a"]; b = 1}]
 let int_64 = [%yojson 1L]
 let int_32 = [%yojson 1l]
 let native_int = [%yojson 1n]
@@ -52,5 +53,6 @@ let patterns = function [@warning "-11"]
   | [%yojson? 1l] as _int_32 -> ()
   | [%yojson? 1n] as _native_int -> ()
   | [%yojson? _s] as _var -> ()
-  | [%yojson? { a = [%y? `Int _i]}] as _var -> ()
+  | [%yojson? { a = [%y? `Int _i]}] as _legacy_var -> ()
+  | [%yojson? { a = [%aq? `Int _i]}] as _var -> ()
   | [%yojson? _] as _any -> ()

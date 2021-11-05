@@ -18,6 +18,7 @@ let complex =
       (`List
          [`Assoc [("name", (`String "Kurt Cobain")); ("age", (`Int 27))];
          `Assoc [("name", (`String "Jesus Christ")); ("age", (`Int 33))]]))]
+let legacy_anti_quotation = `Assoc [("a", (`String "a")); ("b", (`Int 1))]
 let anti_quotation = `Assoc [("a", (`String "a")); ("b", (`Int 1))]
 let int_64 = `Intlit "1"
 let int_32 = `Intlit "1"
@@ -89,6 +90,7 @@ let patterns =
     | `Intlit "1" as _int_32 -> ()
     | `Intlit "1" as _native_int -> ()
     | _s as _var -> ()
+    | `Assoc (("a", `Int _i)::[]) as _legacy_var -> ()
     | `Assoc (("a", `Int _i)::[]) as _var -> ()
     | _ as _any -> ())
   [@warning "-11"])

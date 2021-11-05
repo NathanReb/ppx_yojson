@@ -114,7 +114,8 @@ module Make (Expander : EXPANDER) = struct
         Expander.expand_list ~loc (expand_list ~loc ~path expr)
     | { pexp_desc = Pexp_record (l, None); _ } ->
         Expander.expand_record ~loc (expand_record ~path l)
-    | { pexp_desc = Pexp_extension ({ txt = "y"; _ }, p); pexp_loc; _ } ->
+    | { pexp_desc = Pexp_extension ({ txt = "y" | "aq"; _ }, p); pexp_loc; _ }
+      ->
         expand_anti_quotation ~pexp_loc p
     | _ -> Raise.unsupported_payload ~loc:expr.pexp_loc
 
