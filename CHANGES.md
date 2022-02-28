@@ -1,20 +1,10 @@
-## unreleased
+## 1.2.0
 
 ### Added
 
 - Support `%ezjsonm` extension to output Ezjsonm-compatible values.
   (#31, @mefyl)
 - Add generic antiquotation syntax `[%aq ...]` (#32, @NathanReb)
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## 1.1.0
 
