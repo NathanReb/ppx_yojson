@@ -7,15 +7,16 @@ license: "BSD-2-Clause"
 homepage: "https://github.com/NathanReb/ppx_yojson"
 bug-reports: "https://github.com/NathanReb/ppx_yojson/issues"
 depends: [
-  "dune" {>= "2.2"}
+  "dune" {>= "2.7"}
   "ocaml" {>= "4.08"}
   "alcotest" {with-test}
   "ppxlib" {>= "0.18.0"}
   "ezjsonm" {with-test}
   "yojson" {with-test & >= "1.6.0"}
+  "odoc" {with-doc}
 ]
 build: [
-  ["dune" "subst"] {pinned}
+  ["dune" "subst"] {dev}
   [
     "dune"
     "build"
