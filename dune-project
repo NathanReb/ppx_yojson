@@ -21,6 +21,10 @@
   (alcotest :with-test)
   (ppxlib
    (>= 0.18.0))
+  (ppxlib
+   (and
+    :with-test
+    (>= 0.26.0)))
   (ezjsonm :with-test)
   (yojson
    (and
