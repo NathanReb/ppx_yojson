@@ -48,7 +48,8 @@ end
 module Ezjsonm_expander : EXPANDER = struct
   include Common
 
-  let expand_intlit ~loc _ = Raise.unsupported_payload ~loc
+  let expand_intlit ~loc _ = Ast_builder.Default.pexp_extension ~loc
+                    @@ Location.error_extensionf ~loc "ppx_yojson: unsupported payload"
 
   let expand_int ~loc ~pexp_loc s =
     match int_of_string_opt s with

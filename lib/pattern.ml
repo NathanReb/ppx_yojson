@@ -10,11 +10,14 @@ let expand_int ~loc ~ppat_loc s =
   match int_of_string_opt s with
   | Some i -> [%pat? `Int [%p Ast_builder.Default.pint ~loc i]]
   | None when Integer_const.is_binary s ->
-      Raise.unsupported_payload ~loc:ppat_loc
+      Ast_builder.Default.ppat_extension ~loc
+                    @@ Location.error_extensionf ~loc:ppat_loc "ppx_yojson: unsupported payload"
   | None when Integer_const.is_octal s ->
-      Raise.unsupported_payload ~loc:ppat_loc
+      Ast_builder.Default.ppat_extension ~loc
+                    @@ Location.error_extensionf ~loc:ppat_loc "ppx_yojson: unsupported payload"
   | None when Integer_const.is_hexadecimal s ->
-      Raise.unsupported_payload ~loc:ppat_loc
+      Ast_builder.Default.ppat_extension ~loc
+                    @@ Location.error_extensionf ~loc:ppat_loc "ppx_yojson: unsupported payload"
   | None -> expand_intlit ~loc s
 
 let expand_float ~loc s = [%pat? `Float [%p Ast_builder.Default.pfloat ~loc s]]
@@ -75,7 +78,9 @@ and expand_record ~loc ~ppat_loc ~path l =
     [%pat? `Assoc [%p Ast_builder.Default.plist ~loc pat_list]]
   in
   if List.length l > 4 then
-    Raise.too_many_fields_in_record_pattern ~loc:ppat_loc
+    Ast_builder.Default.ppat_extension ~loc
+                    @@ Location.error_extensionf ~loc:ppat_loc "ppx_yojson: record patterns with more than 4 fields aren't supported. \
+     Consider using ppx_deriving_yojson to handle more complex json objects."
   else
     let pat_list = List.map expand_one l in
     let permutations = Utils.permutations pat_list in
