@@ -54,7 +54,8 @@ module Ezjsonm_expander : EXPANDER = struct
     match int_of_string_opt s with
     | Some i ->
         [%expr `Float [%e Ast_builder.Default.efloat ~loc (string_of_int i)]]
-    | _ -> Raise.unsupported_payload ~loc:pexp_loc
+    | _ -> Ast_builder.Default.pexp_extension ~loc
+                    @@ Location.error_extensionf ~loc:pexp_loc "ppx_yojson: unsupported payload"
 
   let expand_list ~loc exprs =
     expand_list ~loc (fun e -> [%expr `A [%e e]]) exprs
@@ -73,11 +74,14 @@ module Yojson_expander : EXPANDER = struct
     match int_of_string_opt s with
     | Some i -> [%expr `Int [%e Ast_builder.Default.eint ~loc i]]
     | None when Integer_const.is_binary s ->
-        Raise.unsupported_payload ~loc:pexp_loc
+        Ast_builder.Default.pexp_extension ~loc
+                    @@ Location.error_extensionf ~loc:pexp_loc "ppx_yojson: unsupported payload"
     | None when Integer_const.is_octal s ->
-        Raise.unsupported_payload ~loc:pexp_loc
+        Ast_builder.Default.pexp_extension ~loc
+                    @@ Location.error_extensionf ~loc:pexp_loc "ppx_yojson: unsupported payload"
     | None when Integer_const.is_hexadecimal s ->
-        Raise.unsupported_payload ~loc:pexp_loc
+        Ast_builder.Default.pexp_extension ~loc
+                    @@ Location.error_extensionf ~loc:pexp_loc "ppx_yojson: unsupported payload"
     | None -> expand_intlit ~loc s
 
   let expand_list ~loc exprs =
