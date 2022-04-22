@@ -8,7 +8,6 @@ let expr_extension =
     Ppx_yojson_lib.Expression.expand_ezjsonm
 
 let expr_rule_ezjsonm = Ppxlib.Context_free.Rule.extension expr_extension
-
 let name = "yojson"
 
 let expr_extension =

@@ -2,15 +2,10 @@ open Ppxlib
 
 module type EXPANDER = sig
   val expand_bool : loc:location -> bool -> expression
-
   val expand_float : loc:location -> string -> expression
-
   val expand_int : loc:location -> pexp_loc:location -> string -> expression
-
   val expand_intlit : loc:location -> string -> expression
-
   val expand_list : loc:location -> expression list -> expression
-
   val expand_none : loc:location -> unit -> expression
 
   val expand_record : loc:location -> (string * expression) list -> expression
@@ -140,5 +135,4 @@ module Ezjsonm = Make (Ezjsonm_expander)
 module Yojson = Make (Yojson_expander)
 
 let expand_ezjsonm = Ezjsonm.expand
-
 let expand_yojson = Yojson.expand

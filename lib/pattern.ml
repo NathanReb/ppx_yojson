@@ -18,7 +18,6 @@ let expand_int ~loc ~ppat_loc s =
   | None -> expand_intlit ~loc s
 
 let expand_float ~loc s = [%pat? `Float [%p Ast_builder.Default.pfloat ~loc s]]
-
 let expand_var ~loc var = Ast_builder.Default.ppat_var ~loc var
 
 let expand_anti_quotation ~ppat_loc = function
