@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Ignore leading underscores in object field names.
+
 ### Deprecated
 
 ### Fixed
