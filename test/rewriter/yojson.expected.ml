@@ -94,3 +94,8 @@ let patterns =
     | `Assoc (("a", `Int _i)::[]) as _var -> ()
     | _ as _any -> ())
   [@warning "-11"])
+let field_renaming =
+  `Assoc
+    [("object", (`String "object"));
+    ("Ctor", (`String "ctor"));
+    ("_double", (`String "_double"))]

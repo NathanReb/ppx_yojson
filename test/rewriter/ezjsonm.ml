@@ -23,3 +23,4 @@ let complex =
   ]
 let legacy_anti_quotation = [%ezjsonm {a = [%y `String "a"]; b = 1}]
 let anti_quotation = [%ezjsonm {a = [%aq `String "a"]; b = 1}]
+let field_renaming = [%ezjsonm {_object = "object"; _Ctor = "ctor"; __double = "_double"}]
