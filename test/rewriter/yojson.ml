@@ -56,5 +56,6 @@ let patterns = function [@warning "-11"]
   | [%yojson? { a = [%y? `Int _i]}] as _legacy_var -> ()
   | [%yojson? { a = [%aq? `Int _i]}] as _var -> ()
   | [%yojson? _] as _any -> ()
+  | [%yojson? {_object = _; _Ctor = _; __double = _} ] -> ()
 
 let field_renaming   = [%yojson {_object = "object"; _Ctor = "ctor"; __double = "_double"}]

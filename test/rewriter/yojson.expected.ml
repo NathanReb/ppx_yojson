@@ -92,7 +92,13 @@ let patterns =
     | _s as _var -> ()
     | `Assoc (("a", `Int _i)::[]) as _legacy_var -> ()
     | `Assoc (("a", `Int _i)::[]) as _var -> ()
-    | _ as _any -> ())
+    | _ as _any -> ()
+    | `Assoc (("object", _)::("Ctor", _)::("_double", _)::[])
+      | `Assoc (("object", _)::("_double", _)::("Ctor", _)::[])
+      | `Assoc (("Ctor", _)::("object", _)::("_double", _)::[])
+      | `Assoc (("Ctor", _)::("_double", _)::("object", _)::[])
+      | `Assoc (("_double", _)::("object", _)::("Ctor", _)::[])
+      | `Assoc (("_double", _)::("Ctor", _)::("object", _)::[]) -> ())
   [@warning "-11"])
 let field_renaming =
   `Assoc

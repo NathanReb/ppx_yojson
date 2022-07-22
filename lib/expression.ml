@@ -1,8 +1,5 @@
 open Ppxlib
 
-let rewrite_field_name name =
-  if name.[0] = '_' then String.(sub name 1 (length name - 1)) else name
-
 module type EXPANDER = sig
   val expand_bool : loc:location -> bool -> expression
   val expand_float : loc:location -> string -> expression
@@ -37,7 +34,7 @@ module Common = struct
     let fields =
       let f (name, value) =
         [%expr
-          [%e Ast_builder.Default.estring ~loc @@ rewrite_field_name name],
+          [%e Ast_builder.Default.estring ~loc @@ Utils.rewrite_field_name name],
             [%e value]]
       in
       List.map f fields

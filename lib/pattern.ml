@@ -66,7 +66,8 @@ and expand_list ~loc ~path = function
 
 and expand_record ~loc ~ppat_loc ~path l =
   let field = function
-    | { txt = Lident s; _ } -> Ast_builder.Default.pstring ~loc s
+    | { txt = Lident s; _ } ->
+        Ast_builder.Default.pstring ~loc @@ Utils.rewrite_field_name s
     | { txt = _; loc } -> Raise.unsupported_record_field ~loc
   in
   let expand_one (f, p) = [%pat? [%p field f], [%p expand ~loc ~path p]] in
