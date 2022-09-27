@@ -24,4 +24,5 @@ let field_renaming =
   `O
     [("object", (`String "object"));
     ("Ctor", (`String "ctor"));
-    ("_double", (`String "_double"))]
+    ("_double", (`String "_double"));
+    ("@type", (`String "@type"))]
