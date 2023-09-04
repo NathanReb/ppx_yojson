@@ -26,3 +26,4 @@ let field_renaming =
     ("Ctor", (`String "ctor"));
     ("_double", (`String "_double"));
     ("@type", (`String "@type"))]
+let field_renaming_with_attr = `O [("REAL_NAME", (`String "value"))]

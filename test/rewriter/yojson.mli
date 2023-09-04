@@ -19,3 +19,4 @@ val int_32 : json
 val native_int : json
 val patterns : json -> unit
 val field_renaming : json
+val field_renaming_with_attr : json

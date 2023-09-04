@@ -103,3 +103,4 @@ let field_renaming =
     [("object", (`String "object"));
     ("Ctor", (`String "ctor"));
     ("_double", (`String "_double"))]
+let field_renaming_with_attr = `Assoc [("REAL_NAME", (`String "value"))]

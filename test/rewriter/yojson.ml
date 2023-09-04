@@ -60,3 +60,4 @@ let patterns = function [@warning "-11"]
   | [%yojson? {__double = _; type_ = _ [@as "@type"]} ] -> ()
 
 let field_renaming   = [%yojson {_object = "object"; _Ctor = "ctor"; __double = "_double"}]
+let field_renaming_with_attr = [%yojson {placeholder_name = "value" [@as "REAL_NAME"]}]
