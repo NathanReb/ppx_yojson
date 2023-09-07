@@ -4,7 +4,7 @@ PPX extension for Yojson literals and patterns
 
 Based on an original idea by [@emillon](https://github.com/emillon).
 
-[![Build Status](https://travis-ci.org/NathanReb/ppx_yojson.svg?branch=master)](https://travis-ci.org/NathanReb/ppx_yojson)
+[![Build Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fci.ocamllabs.io%2Fbadge%2FNathanReb%2Fppx_yojson%2Fmain&logo=ocaml)](https://ocaml.ci.dev/github/NathanReb/ppx_yojson)
 
 ## Overview
 
