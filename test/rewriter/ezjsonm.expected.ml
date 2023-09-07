@@ -20,3 +20,10 @@ let complex =
          `O [("name", (`String "Jesus Christ")); ("age", (`Float 33))]]))]
 let legacy_anti_quotation = `O [("a", (`String "a")); ("b", (`Float 1))]
 let anti_quotation = `O [("a", (`String "a")); ("b", (`Float 1))]
+let field_renaming =
+  `O
+    [("object", (`String "object"));
+    ("Ctor", (`String "ctor"));
+    ("_double", (`String "_double"));
+    ("@type", (`String "@type"))]
+let field_renaming_with_attr = `O [("REAL_NAME", (`String "value"))]

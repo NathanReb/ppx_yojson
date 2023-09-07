@@ -16,3 +16,6 @@ let rec permutations = function
           List.map (List.cons elm) (permutations @@ remove ~idx l))
         l
       |> List.flatten
+
+let rewrite_field_name name =
+  if name.[0] = '_' then String.(sub name 1 (length name - 1)) else name

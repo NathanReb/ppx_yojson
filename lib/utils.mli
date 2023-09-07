@@ -7,3 +7,8 @@ val remove : idx:int -> 'a list -> 'a list
 
 val permutations : 'a list -> 'a list list
 (** Return all the permutations of the given list *)
+
+val rewrite_field_name : string -> string
+(** Map OCaml record field name to the corresponding JSON field name.
+
+    Ie. trim one leading undescore. *)

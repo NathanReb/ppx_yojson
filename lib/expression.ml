@@ -9,7 +9,7 @@ module type EXPANDER = sig
   val expand_none : loc:location -> unit -> expression
 
   val expand_record : loc:location -> (string * expression) list -> expression
-  (** Expands a list of field names and associated expanded expressions into 
+  (** Expands a list of field names and associated expanded expressions into
       the corresponding JSON object encoding. *)
 
   val expand_string : loc:location -> string -> expression
@@ -123,11 +123,22 @@ module Make (Expander : EXPANDER) = struct
     | _ -> assert false
 
   and expand_record ~path l =
-    let field = function
-      | { txt = Lident s; _ } -> s
-      | { txt = _; loc } -> Raise.unsupported_record_field ~loc
+    let expand_one (f, e) =
+      let field =
+        match
+          ( List.find_opt
+              (fun attr -> String.equal attr.attr_name.txt "as")
+              e.pexp_attributes,
+            f )
+        with
+        | Some { attr_payload; attr_loc = loc; _ }, _ ->
+            Ast_pattern.(parse (single_expr_payload (estring __)))
+              loc attr_payload (fun e -> e)
+        | None, { txt = Lident s; _ } -> Utils.rewrite_field_name s
+        | None, { txt = _; loc } -> Raise.unsupported_record_field ~loc
+      in
+      (field, expand ~loc:e.pexp_loc ~path e)
     in
-    let expand_one (f, e) = (field f, expand ~loc:e.pexp_loc ~path e) in
     List.map expand_one l
 end
 

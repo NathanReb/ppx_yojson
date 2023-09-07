@@ -13,3 +13,5 @@ val record : json
 val complex : json
 val legacy_anti_quotation : json
 val anti_quotation : json
+val field_renaming : json
+val field_renaming_with_attr : json

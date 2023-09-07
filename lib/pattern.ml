@@ -65,11 +65,23 @@ and expand_list ~loc ~path = function
   | _ -> assert false
 
 and expand_record ~loc ~ppat_loc ~path l =
-  let field = function
-    | { txt = Lident s; _ } -> Ast_builder.Default.pstring ~loc s
-    | { txt = _; loc } -> Raise.unsupported_record_field ~loc
+  let expand_one (f, p) =
+    let field =
+      match
+        ( List.find_opt
+            (fun attr -> String.equal attr.attr_name.txt "as")
+            p.ppat_attributes,
+          f )
+      with
+      | Some { attr_payload; attr_loc = loc; _ }, _ ->
+          Ast_pattern.(parse (single_expr_payload (estring __)))
+            loc attr_payload (fun e -> e)
+      | None, { txt = Lident s; _ } -> Utils.rewrite_field_name s
+      | None, { txt = _; loc } -> Raise.unsupported_record_field ~loc
+    in
+    [%pat?
+      [%p Ast_builder.Default.pstring ~loc field], [%p expand ~loc ~path p]]
   in
-  let expand_one (f, p) = [%pat? [%p field f], [%p expand ~loc ~path p]] in
   let assoc_pattern pat_list =
     [%pat? `Assoc [%p Ast_builder.Default.plist ~loc pat_list]]
   in
