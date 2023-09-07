@@ -4,12 +4,13 @@
 
 - Add support for `[@as "field_name"]` attribute to allow forbidden
   ocaml record field names, such as capitalized words, to be used as JSON
-  objects field names
+  objects field names (#40, @mefyl)
 
 ### Changed
 
 - Ignore leading underscores in object field names allowing use
   of ocaml keywords such as `type` or `object` as JSON objects field names
+  (#40, @mefyl)
 
 ### Deprecated
 
