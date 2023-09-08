@@ -159,3 +159,37 @@ is expanded into:
 let f = function
   | `Assoc [("a", `Int i)] -> i + 1
 ```
+
+### Advanced use
+
+#### Object keys
+
+Some valid JSON object key's name are not valid OCaml record fields. Any
+capitalized word or OCaml keyword such as `type` or `object`.
+
+You can still assemble such JSON literals with `ppx_yojson` using a leading
+underscore in the record field name. It will strip exactly one leading
+underscore.
+
+For example, the following:
+```ocaml
+let json = [%yojson { _type = "a"; __object = "b"}]
+```
+
+will be expanded to:
+```ocaml
+let json = `Assoc [("type", `String "a"); ("_object", `String "b")]
+```
+
+Alternatively, you can attach an `[@as "key_name"]` attribute to the relevant
+field to provide the key to use in the JSON object literal.
+
+The following:
+```ocaml
+let json = [%yojson {dummy = "a" [@as "type"]; some_key = "b"}
+```
+
+will be expanded to:
+```ocaml
+let json = `Assoc [("type", `String "a"); ("some_key", `String "b")]
+```
