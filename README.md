@@ -1,6 +1,7 @@
 # ppx_yojson
 
-PPX extension for Yojson literals and patterns
+PPX extension for JSON literals and patterns. It supports `yojson` and
+`ezjsonm`.
 
 Based on an original idea by [@emillon](https://github.com/emillon).
 
@@ -8,10 +9,11 @@ Based on an original idea by [@emillon](https://github.com/emillon).
 
 ## Overview
 
-`ppx_yojson` lets you write `Yojson` expressions and patterns using ocaml syntax to make your code
-more concise and readable.
+`ppx_yojson` lets you write `Yojson` or `Ezjsonm` expressions and patterns
+using ocaml syntax to make your code more concise and readable.
 
-It rewrites `%yojson` extension points based on the content of the payload.
+It rewrites `%yojson` and `%ezjsonm` extension points based on the content of
+the payload.
 
 For example you can turn:
 ```ocaml
@@ -45,43 +47,48 @@ You can install `ppx_yojson` using [opam](https://opam.ocaml.org/):
 $ opam install ppx_yojson
 ```
 
-If you're building your library or app with dune, add the following field to your `library`,
-`executable` or `test` stanza:
+If you're building your library or app with dune, add the following field to
+your `library`, `executable` or `test` stanza:
 ```
 (preprocess (pps ppx_yojson))
 ```
 
-You can now use the `%yojson` extension in your code. See the
+You can now use the `%yojson` or `%ezjsonm` extensions in your code. See the
 [expressions](https://github.com/NathanReb/ppx_yojson#expressions) and
-[patterns](https://github.com/NathanReb/ppx_yojson#patterns) sections for the detailed syntax.
+[patterns](https://github.com/NathanReb/ppx_yojson#patterns) sections for the
+detailed syntax.
 
 ## Syntax
 
 ### Expressions
 
-The expression rewriter supports the following `Yojson` values:
-- `Null`: `[%yojson None]`
-- `Bool of bool`: `[%yojson true]`
-- `Float of float`: `[%yojson 1.2e+10]`
+The expression rewriter supports the following `Yojson` and `Ezjsonm` values:
+- `Null`: `[%yojson None]` or `[%ezjsonm None]`
+- `Bool of bool`: `[%yojson true]` or `[%ezjsonm true]`
+- `Float of float`: `[%yojson 1.2e+10]` or `[%ezjsonm 1.2e+10]`. Note that with
+  `%ezjsonm` all numeric literals are converted to `Float of float`.
 - `Int of int`: `[%yojson 0xff]`. As long as the int literal in the payload fits in an `int`,
   the `0x`, `0o` and `0b` notations are accepted.
 - `Intlit of string`: `[%yojson 100000000000000000000000000000000]`. For arbitrary long integers.
   `int64`, `int32` and `nativeint` literals are also rewritten as `Intlit` for consistency with
   `ppx_deriving_yojson`.
   `0x`, `0o` and `0b` notations are currently not supported and the rewriter will raise an error.
-- `String of string`: `[%yojson "abc"]`
+- `String of string`: `[%yojson "abc"]` or `[%ezjsonm "abc"]`
 - `List of json list`: `[%yojson [1; 2; 3]]`. It supports mixed type list as well such as
   `["a"; 2]`.
+- `A of value list`: `[%ezjsonm ["a"; 2]]`
 - `Assoc of (string * json) list`: `[%yojson {a = 1; b = "b"}]`
+- `O of (string * value) list`: `[%ezjsonm {a = 1; b = "b"}]`
 - Any valid combination of the above
 
-The resulting expression are not constrained, meaning it works with `Yojson.Safe` or `Yojson.Basic`
-regardless.
+The resulting expression are not constrained, meaning it works with
+`Yojson.Safe` or `Yojson.Basic` regardless.
 
 #### Anti-quotation
 
-You can escape regular `Yojson` expressions within a payload using `[%aq json_expr]`. You can use
-this to insert variables in the payload. For example:
+You can escape regular `Yojson` or `Ezjsonm` expressions within a payload using
+`[%aq json_expr]`. You can use this to insert variables in the payload. For
+example:
 
 ```ocaml
 let a = `String "a"
@@ -97,17 +104,19 @@ Note that the payload in a `%aq` extension should always subtype one of the `Yoj
 ### Patterns
 
 Note that the pattern extension expects a pattern payload and must thus be invoked as
-`[%yojson? pattern]`.
+`[%yojson? pattern]` or `[%ezjsonm? pattern]`.
 
 The pattern rewriter supports the following:
-- `Null`, `Bool of bool`, `Float of float`, `Int of int`, `Intlit of string`, `String of string`,
-  `List of json list` with the same syntax as for expressions and will be
-  rewritten to a pattern matching that json value.
-- `Assoc of (string * json) list` with the same syntax as for expressions but with a few
-  restrictions. The record pattern in the payload must be closed (ie no `; _}`) and have less than
-  4 fields. See details below.
-- Var patterns: they are just rewritten as var patterns meaning they will bind to a
-  `Yojson.Safe.json` or whatever `Yojson` type you're using that's compatible with the above.
+- `Null`, `Bool of bool`, `Float of float`, `Int of int`, `Intlit of string`,
+  `String of string`, `List of json list` with the same syntax as for
+  expressions and will be rewritten to a pattern matching that json value.
+- `Assoc of (string * json) list` and `O of (string * value) list` with the same
+  syntax as for expressions but with a few restrictions. The record pattern in
+  the payload must be closed (ie no `; _}`) and have less than 4 fields. See
+  details below.
+- Var patterns: they are just rewritten as var patterns meaning they will bind
+  to a `Ezjsonm.value`, `Yojson.Safe.json` or whatever `Yojson` type you're
+  using that's compatible with the above.
 - The wildcard pattern: it gets rewritten as, well, a wildcard pattern
 - Any valid combination of the above
 
@@ -146,8 +155,9 @@ let f = function
 
 #### Anti-quotation
 
-You can also escape regular `Yojson` patterns in `ppx_yojson` pattern extensions' payload
-using `[%aq? json_pat]`. You can use it to further deconstruct a `Yojson` value. For example:
+You can also escape regular `Ezjsonm` or `Yojson` patterns in `ppx_yojson` pattern
+extensions' payload using `[%aq? json_pat]`. You can use it to further
+deconstruct a JSON value. For example:
 
 ```ocaml
 let f = function
