@@ -1,4 +1,4 @@
-## unreleased
+## 1.3.0
 
 ### Added
 
@@ -11,14 +11,6 @@
 - Ignore leading underscores in object field names allowing use
   of ocaml keywords such as `type` or `object` as JSON objects field names
   (#40, @mefyl)
-
-### Deprecated
-
-### Fixed
-
-### Security
-
-### Removed
 
 ## 1.2.0
 
