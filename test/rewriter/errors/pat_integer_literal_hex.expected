@@ -1,4 +1,0 @@
-File "pat_integer_literal_hex.ml", line 2, characters 14-58:
-2 |   | [%yojson? 0xffffffffffffffffffffffffffffffffffffffffff] -> false
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Error: ppx_yojson: unsupported payload

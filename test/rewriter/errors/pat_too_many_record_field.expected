@@ -1,4 +1,0 @@
-File "pat_too_many_record_field.ml", line 2, characters 14-49:
-2 |   | [%yojson? {a = 1; b = 2; c = 3; d = 4; e = 5}] -> false
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Error: ppx_yojson: record patterns with more than 4 fields aren't supported. Consider using ppx_deriving_yojson to handle more complex json objects.

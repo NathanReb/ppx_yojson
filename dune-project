@@ -30,3 +30,5 @@
    (and
     :with-test
     (>= 1.6.0)))))
+
+(cram enable)

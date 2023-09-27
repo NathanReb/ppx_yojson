@@ -10,11 +10,14 @@ let expand_int ~loc ~ppat_loc s =
   match int_of_string_opt s with
   | Some i -> [%pat? `Int [%p Ast_builder.Default.pint ~loc i]]
   | None when Integer_const.is_binary s ->
-      Raise.unsupported_payload ~loc:ppat_loc
+      Ast_builder.Default.ppat_extension ~loc:ppat_loc
+        (Error.unsupported_payload ~loc:ppat_loc)
   | None when Integer_const.is_octal s ->
-      Raise.unsupported_payload ~loc:ppat_loc
+      Ast_builder.Default.ppat_extension ~loc:ppat_loc
+        (Error.unsupported_payload ~loc:ppat_loc)
   | None when Integer_const.is_hexadecimal s ->
-      Raise.unsupported_payload ~loc:ppat_loc
+      Ast_builder.Default.ppat_extension ~loc:ppat_loc
+        (Error.unsupported_payload ~loc:ppat_loc)
   | None -> expand_intlit ~loc s
 
 let expand_float ~loc s = [%pat? `Float [%p Ast_builder.Default.pfloat ~loc s]]
@@ -23,7 +26,8 @@ let expand_var ~loc var = Ast_builder.Default.ppat_var ~loc var
 let expand_anti_quotation ~ppat_loc = function
   | PPat (ppat, _) -> ppat
   | PStr _ | PSig _ | PTyp _ ->
-      Raise.bad_pat_antiquotation_payload ~loc:ppat_loc
+      Ast_builder.Default.ppat_extension ~loc:ppat_loc
+        (Error.bad_pat_antiquotation_payload ~loc:ppat_loc)
 
 let rec expand ~loc ~path pat =
   match pat with
@@ -54,7 +58,8 @@ let rec expand ~loc ~path pat =
   | [%pat? [%p? _] :: [%p? _]] -> [%pat? `List [%p expand_list ~loc ~path pat]]
   | { ppat_desc = Ppat_record (l, Closed); ppat_loc; _ } ->
       expand_record ~loc ~ppat_loc ~path l
-  | { ppat_loc = loc; _ } -> Raise.unsupported_payload ~loc
+  | { ppat_loc = loc; _ } ->
+      Ast_builder.Default.ppat_extension ~loc (Error.unsupported_payload ~loc)
 
 and expand_list ~loc ~path = function
   | [%pat? []] -> [%pat? []]
@@ -66,27 +71,36 @@ and expand_list ~loc ~path = function
 
 and expand_record ~loc ~ppat_loc ~path l =
   let expand_one (f, p) =
+    let as_attr =
+      List.find_opt
+        (fun attr -> String.equal attr.attr_name.txt "as")
+        p.ppat_attributes
+    in
     let field =
-      match
-        ( List.find_opt
-            (fun attr -> String.equal attr.attr_name.txt "as")
-            p.ppat_attributes,
-          f )
-      with
+      match (as_attr, f) with
       | Some { attr_payload; attr_loc = loc; _ }, _ ->
           Ast_pattern.(parse (single_expr_payload (estring __)))
-            loc attr_payload (fun e -> e)
-      | None, { txt = Lident s; _ } -> Utils.rewrite_field_name s
-      | None, { txt = _; loc } -> Raise.unsupported_record_field ~loc
+            loc attr_payload (fun e -> Ok e)
+      | None, { txt = Lident s; _ } -> Ok (Utils.rewrite_field_name s)
+      | None, { txt = _; loc } ->
+          let pat_ext =
+            Ast_builder.Default.ppat_extension ~loc
+              (Error.unsupported_record_field ~loc)
+          in
+          Error pat_ext
     in
-    [%pat?
-      [%p Ast_builder.Default.pstring ~loc field], [%p expand ~loc ~path p]]
+    match field with
+    | Ok field ->
+        [%pat?
+          [%p Ast_builder.Default.pstring ~loc field], [%p expand ~loc ~path p]]
+    | Error extension -> extension
   in
   let assoc_pattern pat_list =
     [%pat? `Assoc [%p Ast_builder.Default.plist ~loc pat_list]]
   in
   if List.length l > 4 then
-    Raise.too_many_fields_in_record_pattern ~loc:ppat_loc
+    Ast_builder.Default.ppat_extension ~loc:ppat_loc
+      (Error.too_many_fields_in_record_pattern ~loc:ppat_loc)
   else
     let pat_list = List.map expand_one l in
     let permutations = Utils.permutations pat_list in
