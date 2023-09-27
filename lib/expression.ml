@@ -44,7 +44,8 @@ module Ezjsonm_expander : EXPANDER = struct
   include Common
 
   let expand_intlit ~loc:_ ~pexp_loc:loc _ =
-    Ast_builder.Default.pexp_extension ~loc (Error.unsupported_payload ~loc)
+    Ast_builder.Default.pexp_extension ~loc
+      (Error.invalid_integer_literal_ezjsonm ~loc)
 
   let expand_int ~loc ~pexp_loc s =
     match int_of_string_opt s with
@@ -52,7 +53,7 @@ module Ezjsonm_expander : EXPANDER = struct
         [%expr `Float [%e Ast_builder.Default.efloat ~loc (string_of_int i)]]
     | _ ->
         Ast_builder.Default.pexp_extension ~loc:pexp_loc
-          (Error.unsupported_payload ~loc:pexp_loc)
+          (Error.invalid_integer_literal_ezjsonm ~loc:pexp_loc)
 
   let expand_list ~loc exprs =
     expand_list ~loc (fun e -> [%expr `A [%e e]]) exprs
@@ -72,13 +73,13 @@ module Yojson_expander : EXPANDER = struct
     | Some i -> [%expr `Int [%e Ast_builder.Default.eint ~loc i]]
     | None when Integer_const.is_binary s ->
         Ast_builder.Default.pexp_extension ~loc:pexp_loc
-          (Error.unsupported_payload ~loc:pexp_loc)
+          (Error.invalid_integer_literal_yojson ~loc:pexp_loc)
     | None when Integer_const.is_octal s ->
         Ast_builder.Default.pexp_extension ~loc:pexp_loc
-          (Error.unsupported_payload ~loc:pexp_loc)
+          (Error.invalid_integer_literal_yojson ~loc:pexp_loc)
     | None when Integer_const.is_hexadecimal s ->
         Ast_builder.Default.pexp_extension ~loc:pexp_loc
-          (Error.unsupported_payload ~loc:pexp_loc)
+          (Error.invalid_integer_literal_yojson ~loc:pexp_loc)
     | None -> expand_intlit ~loc ~pexp_loc s
 
   let expand_list ~loc exprs =

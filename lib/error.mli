@@ -20,3 +20,9 @@ val bad_expr_antiquotation_payload : loc:Ppxlib.Location.t -> Ppxlib.extension
 
 val bad_pat_antiquotation_payload : loc:Ppxlib.Location.t -> Ppxlib.extension
 (** Use this for bad payload in pattern antiquotation [[%y? ...]]. *)
+
+val invalid_integer_literal_yojson : loc:Ppxlib.Location.t -> Ppxlib.extension
+(** Use this for invalid integer literals in the yojson extension *)
+
+val invalid_integer_literal_ezjsonm : loc:Ppxlib.Location.t -> Ppxlib.extension
+(** Use this for invalid integer literals in the ezjsonm extension *)

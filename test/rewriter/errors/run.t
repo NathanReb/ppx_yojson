@@ -53,7 +53,8 @@ should trigger errors:
   File "test.ml", line 1, characters 35-59:
   1 | let invalid_hex_literal = [%yojson 0xffffffffffffffffffffff]
                                          ^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: ppx_yojson: unsupported payload
+  Error: ppx_yojson: invalid interger literal. Integer literal should fit
+         within an OCaml int or be written in decimal form.
   [1]
 
 ---------------------------------------
@@ -79,7 +80,8 @@ should trigger errors:
   File "test.ml", line 1, characters 37-79:
   1 | let invalid_octal_literal = [%yojson 0o7777777777777777777777777777777777777777]
                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: ppx_yojson: unsupported payload
+  Error: ppx_yojson: invalid interger literal. Integer literal should fit
+         within an OCaml int or be written in decimal form.
   [1]
 
 --------------------------------------
@@ -105,7 +107,8 @@ should trigger errors:
   File "test.ml", line 1, characters 35-146:
   1 | let invalid_bin_literal = [%yojson 0b1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111]
                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: ppx_yojson: unsupported payload
+  Error: ppx_yojson: invalid interger literal. Integer literal should fit
+         within an OCaml int or be written in decimal form.
   [1]
 
 --------------------------------------
