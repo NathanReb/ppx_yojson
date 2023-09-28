@@ -1,4 +1,4 @@
-(lang dune 2.7)
+(lang dune 3.10)
 
 (generate_opam_files true)
 
@@ -30,5 +30,3 @@
    (and
     :with-test
     (>= 1.6.0)))))
-
-(cram enable)
