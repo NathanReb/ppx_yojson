@@ -1,4 +1,0 @@
-File "pat_unsupported_payload.ml", line 2, characters 14-19:
-2 |   | [%yojson? Ok ()] -> false
-                  ^^^^^
-Error: ppx_yojson: unsupported payload

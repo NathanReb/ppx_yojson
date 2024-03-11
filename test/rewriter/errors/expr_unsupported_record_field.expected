@@ -1,4 +1,0 @@
-File "expr_unsupported_record_field.ml", line 1, characters 41-48:
-1 | let unsupported_record_field = [%yojson {A.field = 0}]
-                                             ^^^^^^^
-Error: ppx_yojson: unsupported record field

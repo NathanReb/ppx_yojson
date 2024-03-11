@@ -4,6 +4,9 @@
 
 ### Changed
 
+- Insert errors in the AST rather than raising exceptions. This allows
+  merlin to report all ppx_yojson errors at once. (#44, @NathanReb)
+
 ### Deprecated
 
 ### Fixed

@@ -1,4 +1,0 @@
-File "expr_integer_literal_octal.ml", line 1, characters 39-86:
-1 | let invalid_integer_literal = [%yojson 0o777777777777777777777777777777777777777777777]
-                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Error: ppx_yojson: unsupported payload

@@ -1,4 +1,0 @@
-File "pat_unsupported_record_field.ml", line 2, characters 15-22:
-2 |   | [%yojson? {A.field = 0}] -> false
-                   ^^^^^^^
-Error: ppx_yojson: unsupported record field

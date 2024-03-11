@@ -4,7 +4,7 @@ module type EXPANDER = sig
   val expand_bool : loc:location -> bool -> expression
   val expand_float : loc:location -> string -> expression
   val expand_int : loc:location -> pexp_loc:location -> string -> expression
-  val expand_intlit : loc:location -> string -> expression
+  val expand_intlit : loc:location -> pexp_loc:location -> string -> expression
   val expand_list : loc:location -> expression list -> expression
   val expand_none : loc:location -> unit -> expression
 
@@ -43,13 +43,17 @@ end
 module Ezjsonm_expander : EXPANDER = struct
   include Common
 
-  let expand_intlit ~loc _ = Raise.unsupported_payload ~loc
+  let expand_intlit ~loc:_ ~pexp_loc:loc _ =
+    Ast_builder.Default.pexp_extension ~loc
+      (Error.invalid_integer_literal_ezjsonm ~loc)
 
   let expand_int ~loc ~pexp_loc s =
     match int_of_string_opt s with
     | Some i ->
         [%expr `Float [%e Ast_builder.Default.efloat ~loc (string_of_int i)]]
-    | _ -> Raise.unsupported_payload ~loc:pexp_loc
+    | _ ->
+        Ast_builder.Default.pexp_extension ~loc:pexp_loc
+          (Error.invalid_integer_literal_ezjsonm ~loc:pexp_loc)
 
   let expand_list ~loc exprs =
     expand_list ~loc (fun e -> [%expr `A [%e e]]) exprs
@@ -61,19 +65,22 @@ end
 module Yojson_expander : EXPANDER = struct
   include Common
 
-  let expand_intlit ~loc s =
+  let expand_intlit ~loc ~pexp_loc:_ s =
     [%expr `Intlit [%e Ast_builder.Default.estring ~loc s]]
 
   let expand_int ~loc ~pexp_loc s =
     match int_of_string_opt s with
     | Some i -> [%expr `Int [%e Ast_builder.Default.eint ~loc i]]
     | None when Integer_const.is_binary s ->
-        Raise.unsupported_payload ~loc:pexp_loc
+        Ast_builder.Default.pexp_extension ~loc:pexp_loc
+          (Error.invalid_integer_literal_yojson ~loc:pexp_loc)
     | None when Integer_const.is_octal s ->
-        Raise.unsupported_payload ~loc:pexp_loc
+        Ast_builder.Default.pexp_extension ~loc:pexp_loc
+          (Error.invalid_integer_literal_yojson ~loc:pexp_loc)
     | None when Integer_const.is_hexadecimal s ->
-        Raise.unsupported_payload ~loc:pexp_loc
-    | None -> expand_intlit ~loc s
+        Ast_builder.Default.pexp_extension ~loc:pexp_loc
+          (Error.invalid_integer_literal_yojson ~loc:pexp_loc)
+    | None -> expand_intlit ~loc ~pexp_loc s
 
   let expand_list ~loc exprs =
     expand_list ~loc (fun e -> [%expr `List [%e e]]) exprs
@@ -86,7 +93,8 @@ module Make (Expander : EXPANDER) = struct
   let expand_anti_quotation ~pexp_loc = function
     | PStr [ { pstr_desc = Pstr_eval (expr, _); _ } ] -> expr
     | PStr _ | PSig _ | PTyp _ | PPat _ ->
-        Raise.bad_expr_antiquotation_payload ~loc:pexp_loc
+        Ast_builder.Default.pexp_extension ~loc:pexp_loc
+          (Error.bad_expr_antiquotation_payload ~loc:pexp_loc)
 
   let rec expand ~loc ~path expr =
     match expr with
@@ -99,9 +107,10 @@ module Make (Expander : EXPANDER) = struct
         Expander.expand_int ~loc ~pexp_loc s
     | {
      pexp_desc = Pexp_constant (Pconst_integer (s, Some ('l' | 'L' | 'n')));
+     pexp_loc;
      _;
     } ->
-        Expander.expand_intlit ~loc s
+        Expander.expand_intlit ~loc ~pexp_loc s
     | { pexp_desc = Pexp_constant (Pconst_float (s, None)); _ } ->
         Expander.expand_float ~loc s
     | [%expr []] -> Expander.expand_list ~loc []
@@ -112,7 +121,9 @@ module Make (Expander : EXPANDER) = struct
     | { pexp_desc = Pexp_extension ({ txt = "y" | "aq"; _ }, p); pexp_loc; _ }
       ->
         expand_anti_quotation ~pexp_loc p
-    | _ -> Raise.unsupported_payload ~loc:expr.pexp_loc
+    | _ ->
+        Ast_builder.Default.pexp_extension ~loc:expr.pexp_loc
+          (Error.unsupported_payload ~loc:expr.pexp_loc)
 
   and expand_list ~loc ~path = function
     | [%expr []] -> []
@@ -124,20 +135,27 @@ module Make (Expander : EXPANDER) = struct
 
   and expand_record ~path l =
     let expand_one (f, e) =
+      let as_attr =
+        List.find_opt
+          (fun attr -> String.equal attr.attr_name.txt "as")
+          e.pexp_attributes
+      in
       let field =
-        match
-          ( List.find_opt
-              (fun attr -> String.equal attr.attr_name.txt "as")
-              e.pexp_attributes,
-            f )
-        with
+        match (as_attr, f) with
         | Some { attr_payload; attr_loc = loc; _ }, _ ->
             Ast_pattern.(parse (single_expr_payload (estring __)))
-              loc attr_payload (fun e -> e)
-        | None, { txt = Lident s; _ } -> Utils.rewrite_field_name s
-        | None, { txt = _; loc } -> Raise.unsupported_record_field ~loc
+              loc attr_payload (fun e -> Ok e)
+        | None, { txt = Lident s; _ } -> Ok (Utils.rewrite_field_name s)
+        | None, { txt = _; loc } ->
+            let extension =
+              Ast_builder.Default.pexp_extension ~loc
+                (Error.unsupported_record_field ~loc)
+            in
+            Error extension
       in
-      (field, expand ~loc:e.pexp_loc ~path e)
+      match field with
+      | Ok field -> (field, expand ~loc:e.pexp_loc ~path e)
+      | Error extension -> ("error", extension)
     in
     List.map expand_one l
 end
